@@ -12,7 +12,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:text="Write text to send to Wear" />
+        android:text="Write text to send to Wear"
+        android:onClick="sendButtonPressed" />
 
     <Button
         android:layout_width="wrap_content"
