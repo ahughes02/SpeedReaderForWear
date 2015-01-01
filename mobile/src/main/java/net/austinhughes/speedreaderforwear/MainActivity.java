@@ -1,5 +1,11 @@
+/*
+    (C) 2015 - Austin Hughes, Stefan Oswald, Nowele Rechka
+    Last Modified: 2015-01-01
+ */
+
 package net.austinhughes.speedreaderforwear;
 
+// Imports
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +20,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.wearable.*;
 
-
+/*
+    Main class for phone side application
+ */
 public class MainActivity extends ActionBarActivity
 {
+    // Private class variables
     private GoogleApiClient mGoogleApiClient;
     private PutDataMapRequest dataMap;
 
@@ -26,16 +35,18 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Generate the API client for talking to the Wear device
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
                 {
                     @Override
                     public void onConnected(Bundle connectionHint)
                     {
-                        Toast toast = Toast.makeText(getBaseContext(), "Connected to Wear Device", Toast.LENGTH_LONG);
-                        toast.show();
-                        Log.d("Wearable API", "onConnected: " + connectionHint);
                         // Now you can use the Data Layer API
+                        // Show feedback that we connected to the API for debug
+                        Toast.makeText(getBaseContext(), "Connected to Wear Device",
+                                Toast.LENGTH_LONG).show();
+                        Log.d("Wearable API", "onConnected: " + connectionHint);
                     }
                     @Override
                     public void onConnectionSuspended(int cause)
@@ -56,6 +67,20 @@ public class MainActivity extends ActionBarActivity
                 .build();
 
         dataMap = PutDataMapRequest.create("/data");
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
@@ -83,7 +108,8 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendButtonPressed(View v)
+    // Gets called whenever the send button is pressed
+    public void onSendButtonPressed(View v)
     {
         EditText mEdit = (EditText)findViewById(R.id.editText);
 
@@ -91,5 +117,8 @@ public class MainActivity extends ActionBarActivity
         PutDataRequest request = dataMap.asPutDataRequest();
         PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
                 .putDataItem(mGoogleApiClient, request);
+
+        Toast.makeText(getBaseContext(), "Sent text to Wear device",
+                Toast.LENGTH_LONG).show();
     }
 }

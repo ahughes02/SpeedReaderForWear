@@ -21,5 +21,6 @@
         android:text="send"
         android:id="@+id/sendbutton"
         android:layout_below="@+id/editText"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="onSendButtonPressed" />
 </RelativeLayout>
