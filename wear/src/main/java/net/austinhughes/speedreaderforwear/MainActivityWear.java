@@ -15,20 +15,22 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
-import com.google.android.gms.wearable.WearableListenerService;
 
 /*
     Main class for wearable side application
  */
-public class MainActivityWear extends Activity {
+public class MainActivityWear extends Activity implements
+        DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+{
 
     // private class variables
     private TextView mTextView;
-    private ListenerService listener;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +45,12 @@ public class MainActivityWear extends Activity {
             }
         });
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
         Toast.makeText(getBaseContext(), "onCreate",
                 Toast.LENGTH_LONG).show();
     }
@@ -51,69 +59,48 @@ public class MainActivityWear extends Activity {
     protected void onStart()
     {
         super.onStart();
+        mGoogleApiClient.connect();
         Toast.makeText(getBaseContext(), "onStart",
                 Toast.LENGTH_LONG).show();
-        listener = new ListenerService();
     }
 
-    // Class to listen for data events
-    public class ListenerService extends WearableListenerService
+    @Override
+    public void onConnected(Bundle connectionHint)
     {
+        Toast.makeText(getBaseContext(), "onConnected",
+                Toast.LENGTH_LONG).show();
+        Wearable.DataApi.addListener(mGoogleApiClient, this);
+    }
 
-        private GoogleApiClient mGoogleApiClient;
-        private PutDataMapRequest dataMap;
+    @Override
+    public void onConnectionSuspended(int i) {
 
-        @Override
-        public void onDataChanged(DataEventBuffer dataEvents)
+    }
+
+    @Override
+    protected void onStop() {
+        if (null != mGoogleApiClient && mGoogleApiClient.isConnected())
         {
-            for (DataEvent event : dataEvents)
+            Wearable.DataApi.removeListener(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDataChanged(DataEventBuffer dataEvents)
+    {
+        for (DataEvent event : dataEvents) {
+            if (event.getType() == DataEvent.TYPE_CHANGED)
             {
-                if (event.getType() == DataEvent.TYPE_CHANGED)
-                {
-                    Toast.makeText(getBaseContext(), "Text received",
-                            Toast.LENGTH_LONG).show();
-                }
+                Toast.makeText(getBaseContext(), "DataItem changed",
+                        Toast.LENGTH_LONG).show();
             }
         }
+    }
 
-        @Override
-        public void onCreate()
-        {
-            super.onCreate();
-            Toast.makeText(getBaseContext(), "Listener onCreate",
-                    Toast.LENGTH_LONG).show();
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
-                    {
-                        @Override
-                        public void onConnected(Bundle connectionHint)
-                        {
-                            // Now you can use the Data Layer API
-                            // Show feedback that we connected to the API for debug
-                            Toast.makeText(getBaseContext(), "Connected to Wear Device",
-                                    Toast.LENGTH_LONG).show();
-                            Log.d("Wearable API", "onConnected: " + connectionHint);
-                        }
-                        @Override
-                        public void onConnectionSuspended(int cause)
-                        {
-                            Log.d("Wearable API", "onConnectionSuspended: " + cause);
-                        }
-                    })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener()
-                    {
-                        @Override
-                        public void onConnectionFailed(ConnectionResult result)
-                        {
-                            Log.d("Wearable API", "onConnectionFailed: " + result);
-                        }
-                    })
-                            // Request access only to the Wearable API
-                    .addApi(Wearable.API)
-                    .build();
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
-            mGoogleApiClient.connect();
-            dataMap = PutDataMapRequest.create("/data");
-        }
     }
 }
