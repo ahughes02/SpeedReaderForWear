@@ -42,12 +42,17 @@ public class MainActivityWear extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
             }
         });
+
+        Toast.makeText(getBaseContext(), "onCreate",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
+        Toast.makeText(getBaseContext(), "onStart",
+                Toast.LENGTH_LONG).show();
         listener = new ListenerService();
     }
 
@@ -75,6 +80,8 @@ public class MainActivityWear extends Activity {
         public void onCreate()
         {
             super.onCreate();
+            Toast.makeText(getBaseContext(), "Listener onCreate",
+                    Toast.LENGTH_LONG).show();
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
                     {
