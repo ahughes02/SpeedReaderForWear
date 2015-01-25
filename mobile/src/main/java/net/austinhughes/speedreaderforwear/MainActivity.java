@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity
                         // Now you can use the Data Layer API
                         // Show feedback that we connected to the API for debug
                         Toast.makeText(getBaseContext(), "Connected to Wear Device",
-                                Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_LONG).show();
                         Log.d("Wearable API", "onConnected: " + connectionHint);
                     }
                     @Override
