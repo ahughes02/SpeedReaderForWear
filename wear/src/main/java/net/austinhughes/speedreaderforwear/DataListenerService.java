@@ -42,8 +42,6 @@ public class DataListenerService extends WearableListenerService
     public void onDataChanged(DataEventBuffer dataEvents)
     {
         LOGD(TAG, "onDataChanged: " + dataEvents);
-        final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
-        dataEvents.close();
 
         if(!mGoogleApiClient.isConnected())
         {
@@ -55,12 +53,6 @@ public class DataListenerService extends WearableListenerService
                 return;
             }
         }
-
-        // Loop through the events and send a message back to the node that created the data item.
-        /*for (DataEvent event : events)
-        {
-            // do something
-        }*/
     }
 
 

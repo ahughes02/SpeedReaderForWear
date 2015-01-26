@@ -6,11 +6,7 @@
 package net.austinhughes.speedreaderforwear;
 
 // Imports
-
-
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.wearable.view.WatchViewStub;
@@ -22,18 +18,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.data.FreezableUtils;
-import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.MessageApi;
-import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static net.austinhughes.speedreaderforwear.DataListenerService.LOGD;
 
@@ -41,7 +28,7 @@ import static net.austinhughes.speedreaderforwear.DataListenerService.LOGD;
 /*
     Main class for wearable side application
  */
-public class MainActivityWear extends Activity implements DataApi.DataListener
+public class MainActivityWear extends Activity implements ConnectionCallbacks, DataApi.DataListener, OnConnectionFailedListener
 {
     // private class variables
     private TextView mTextView;
@@ -67,50 +54,51 @@ public class MainActivityWear extends Activity implements DataApi.DataListener
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
                 .build();
 
         Toast.makeText(getBaseContext(), "onCreate",
                 Toast.LENGTH_LONG).show();
-
-        DataListenerService ls = new DataListenerService();
     }
 
     @Override
-    protected void onStart()
+    protected void onResume()
     {
-        super.onStart();
+        super.onResume();
         mGoogleApiClient.connect();
-        Toast.makeText(getBaseContext(), "onStart",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
-    protected void onStop() {
-        if (null != mGoogleApiClient && mGoogleApiClient.isConnected())
-        {
-            mGoogleApiClient.disconnect();
-        }
-        super.onStop();
+    protected  void onPause()
+    {
+        super.onPause();
+        Wearable.DataApi.removeListener(mGoogleApiClient, this);
+        mGoogleApiClient.disconnect();
     }
 
     @Override
-    public void onDataChanged(DataEventBuffer dataEvents) {
+    public void onConnected(Bundle connectionHint)
+    {
+        LOGD(TAG, "onConnected(): connected to Google API client");
+        Wearable.DataApi.addListener(mGoogleApiClient, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause)
+    {
+        LOGD(TAG, "onConnectionSuspended(): Connection to Google API client was suspended");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result)
+    {
+        Log.e(TAG, "onConnectionFailed(): Failed to connect with result: " + result);
+    }
+
+    @Override
+    public void onDataChanged(DataEventBuffer dataEvents)
+    {
         LOGD(TAG, "onDataChanged(): " + dataEvents);
-        final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
-        dataEvents.close();
-
-        if(!mGoogleApiClient.isConnected())
-        {
-            ConnectionResult connectionResult = mGoogleApiClient
-                    .blockingConnect(30, TimeUnit.SECONDS);
-            if (!connectionResult.isSuccess())
-            {
-                Log.e(TAG, "DataLayerListenerService failed to connect to GoogleApiClient.");
-                return;
-            }
-        }
-
     }
-
-
 }
