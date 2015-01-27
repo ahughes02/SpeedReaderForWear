@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity
     public void onSendButtonPressed(View v)
     {
         EditText mEdit = (EditText)findViewById(R.id.editText);
-
+        dataMap.getDataMap().clear();
         dataMap.getDataMap().putString("editTextValue", mEdit.getText().toString());
         PutDataRequest request = dataMap.asPutDataRequest();
         PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi

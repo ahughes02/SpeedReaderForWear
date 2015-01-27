@@ -108,9 +108,17 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             if (event.getType() == DataEvent.TYPE_CHANGED)
             {
                 DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
-                String text = dataMapItem.getDataMap().toString();
+                final String text = dataMapItem.getDataMap().get("editTextValue");
                 Log.d("DataItem", text);
-                mTextView.setText(text);
+
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        mTextView.setText(text);
+                    }
+                });
             }
         }
     }
