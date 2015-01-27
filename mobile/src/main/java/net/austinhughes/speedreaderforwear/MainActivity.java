@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.common.*;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -44,8 +43,6 @@ public class MainActivity extends ActionBarActivity
                     {
                         // Now you can use the Data Layer API
                         // Show feedback that we connected to the API for debug
-                        Toast.makeText(getBaseContext(), "Connected to Wear Device",
-                            Toast.LENGTH_LONG).show();
                         Log.d("Wearable API", "onConnected: " + connectionHint);
                     }
                     @Override
@@ -117,8 +114,5 @@ public class MainActivity extends ActionBarActivity
         PutDataRequest request = dataMap.asPutDataRequest();
         PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
                 .putDataItem(mGoogleApiClient, request);
-
-        Toast.makeText(getBaseContext(), "Sent text to Wear device",
-                Toast.LENGTH_LONG).show();
     }
 }

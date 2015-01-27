@@ -7,21 +7,17 @@ package net.austinhughes.speedreaderforwear;
 
 // Imports
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.data.FreezableUtils;
-import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -29,7 +25,6 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
-
 
 /*
     Main class for wearable side application
@@ -64,8 +59,6 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 .addOnConnectionFailedListener(this)
                 .build();
         Log.d("Wearable DataListenerService", "onCreate");
-        Toast.makeText(getBaseContext(), "onCreate",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -73,8 +66,6 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     {
         super.onResume();
         mGoogleApiClient.connect();
-        Toast.makeText(getBaseContext(), "onResume",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -90,8 +81,6 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     {
         Log.d(TAG, "onConnected(): connected to Google API client");
         Wearable.DataApi.addListener(mGoogleApiClient, this);
-        Toast.makeText(getBaseContext(), "onConnected",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -104,8 +93,6 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     public void onConnectionFailed(ConnectionResult result)
     {
         Log.e(TAG, "onConnectionFailed(): Failed to connect with result: " + result);
-        Toast.makeText(getBaseContext(), "onConnectionFailed",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -121,9 +108,10 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             if (event.getType() == DataEvent.TYPE_CHANGED)
             {
                 DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
-                Log.d("DataItem", dataMapItem.getDataMap().toString());
+                String text = dataMapItem.getDataMap().toString();
+                Log.d("DataItem", text);
+                mTextView.setText(text);
             }
-
         }
     }
 }
