@@ -111,15 +111,30 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 final String text = dataMapItem.getDataMap().get("editTextValue");
                 Log.d("DataItem", text);
 
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        mTextView.setText(text);
-                    }
-                });
+
             }
         }
+    }
+
+    public void spreed(String input) throws InterruptedException
+    {
+        for (String s :  input.split(" "))
+        {
+            setText(s);
+            wait(250);
+        }
+    }
+
+    public void setText(String input)
+    {
+        final String text = input;
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                mTextView.setText(text);
+            }
+        });
     }
 }
