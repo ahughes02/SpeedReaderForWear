@@ -11,20 +11,27 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.data.FreezableUtils;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.sql.Time;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /*
     Main class for wearable side application
@@ -36,6 +43,10 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     private GoogleApiClient mGoogleApiClient;
     private  Handler mHandler;
     private static final String TAG = "DataListenerService";
+
+    // very silly
+    private String[] currentData;
+    private int iterator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,20 +121,42 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                 final String text = dataMapItem.getDataMap().get("editTextValue");
                 Log.d("DataItem", text);
-
-
+                currentData = text.split(" ");
+                setText("New Data Received. Tap to Spreed.");
             }
         }
     }
 
-    public void spreed(String input) throws InterruptedException
+    public void spreed() throws InterruptedException
     {
-        for (String s :  input.split(" "))
+        // this is a silly way to do this
+        iterator = 0;
+        new Timer().scheduleAtFixedRate(new TimerTask()
         {
-            setText(s);
-            wait(250);
-        }
+            @Override
+            public void run()
+            {
+                if(!iterateText())
+                {
+                    setText("Tap to read again");
+                    this.cancel();
+                }
+            }
+        }, 0, 250);//put here time 1000 milliseconds=1 second
     }
+
+    private Boolean iterateText()
+    {
+        if(iterator != currentData.length)
+        {
+            setText(currentData[iterator]);
+            iterator++;
+            return true;
+        }
+
+        return false;
+    }
+
 
     public void setText(String input)
     {
@@ -136,5 +169,11 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 mTextView.setText(text);
             }
         });
+    }
+
+    // Gets called whenever the text is pressed
+    public void onTextPressed(View v) throws InterruptedException
+    {
+        spreed();
     }
 }
