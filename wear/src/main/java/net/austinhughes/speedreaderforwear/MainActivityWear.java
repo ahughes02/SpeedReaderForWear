@@ -7,28 +7,30 @@ package net.austinhughes.speedreaderforwear;
 
 // Imports
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.data.FreezableUtils;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-import java.sql.Time;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,21 +40,23 @@ import java.util.TimerTask;
  */
 public class MainActivityWear extends Activity implements ConnectionCallbacks, DataApi.DataListener, OnConnectionFailedListener
 {
-    // private class variables
-    private TextView mTextView;
-    private GoogleApiClient mGoogleApiClient;
-    private  Handler mHandler;
-    private static final String TAG = "DataListenerService";
+    private TextView mTextView; // Stores the main app text view
+    private GoogleApiClient mGoogleApiClient; // The Google API for talking to the phone
+    private static final String TAG = "SpeedReader"; // Tag for log
 
-    // very silly
+    // Used to "spreed" text data
     private String[] currentData;
     private int iterator;
+
+    // Private data store
+    String FILENAME = "stored_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mHandler = new Handler();
+
+        // Setup main view and set mTextView to the main text display
         setContentView(R.layout.activity_main_activity_wear);
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener()
@@ -61,37 +65,69 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             public void onLayoutInflated(WatchViewStub stub)
             {
                 mTextView = (TextView) stub.findViewById(R.id.text);
+
+                try
+                {
+                    FileInputStream fis = openFileInput(FILENAME);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+                    String text = br.readLine();
+                    Log.d(TAG, "Read line from file: " + text);
+
+                    currentData = text.split(" ");
+
+                    setText("Tap to read data from file.");
+                }
+                catch (Exception e)
+                {
+                    Log.d(TAG, "Unable to read saved data: " + e.toString());
+                }
             }
         });
 
+        // Connect to the Google API
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        Log.d("Wearable DataListenerService", "onCreate");
+
+        Log.d(TAG, "onCreate");
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        mGoogleApiClient.connect();
+
+        // Reconnect to Google API
+        if(!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting())
+        {
+            mGoogleApiClient.connect();
+        }
+
+        Log.d(TAG, "onResume");
     }
 
     @Override
-    protected  void onPause()
+    protected void onPause()
     {
         super.onPause();
+
+        // Disconnect from the listener and the Google API
         Wearable.DataApi.removeListener(mGoogleApiClient, this);
         mGoogleApiClient.disconnect();
+
+        Log.d(TAG, "onPause");
     }
 
     @Override
     public void onConnected(Bundle connectionHint)
     {
-        Log.d(TAG, "onConnected(): connected to Google API client");
+        // Reconnect to the data listener
         Wearable.DataApi.addListener(mGoogleApiClient, this);
+
+        Log.d(TAG, "onConnected(): connected to Google API client");
     }
 
     @Override
@@ -109,7 +145,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     @Override
     public void onDataChanged(DataEventBuffer dataEvents)
     {
-        Log.d("Wearable DataListenerService", "onDataChanged" + dataEvents);
+        Log.d(TAG, "onDataChanged" + dataEvents);
 
         final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
         dataEvents.close();
@@ -120,9 +156,26 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             {
                 DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                 final String text = dataMapItem.getDataMap().get("editTextValue");
-                Log.d("DataItem", text);
+                Log.d(TAG, "DataItem: " + text);
+
+                try
+                {
+                    // Make sure file is clean
+                    deleteFile(FILENAME);
+
+                    // Write to the file
+                    FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                    fos.write(text.getBytes());
+                    fos.close();
+                }
+                catch(IOException e)
+                {
+                    Log.d(TAG, "IO Exception " + e.toString());
+                }
+
+
                 currentData = text.split(" ");
-                setText("New Data Received. Tap to Spreed.");
+                setText("New Data Received. Tap to Read.");
             }
         }
     }
@@ -142,14 +195,21 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                     this.cancel();
                 }
             }
-        }, 0, 250);//put here time 1000 milliseconds=1 second
+        }, 0, 250);
     }
 
     private Boolean iterateText()
     {
-        if(iterator != currentData.length)
+        if(iterator < currentData.length)
         {
             setText(currentData[iterator]);
+            iterator++;
+            return true;
+        }
+
+        if(iterator == currentData.length)
+        {
+            // store last text for a bit
             iterator++;
             return true;
         }
@@ -161,11 +221,9 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     public void setText(String input)
     {
         final String text = input;
-        runOnUiThread(new Runnable()
-        {
+        runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 mTextView.setText(text);
             }
         });
