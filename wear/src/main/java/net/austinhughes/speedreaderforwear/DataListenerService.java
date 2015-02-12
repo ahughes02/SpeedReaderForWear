@@ -1,5 +1,6 @@
 /*
- * Created by Austin on 2015-01-23.
+    (C) 2015 - Austin Hughes, Stefan Oswald, Nowele Rechka
+    Last Modified: 2015-02-12
  */
 
 package net.austinhughes.speedreaderforwear;
@@ -14,6 +15,9 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.concurrent.TimeUnit;
 
+/*
+    Listener for data layer events in the Google Wearable API
+ */
 public class DataListenerService extends WearableListenerService
 {
     private static final String TAG = "DataListenerService";
@@ -41,7 +45,7 @@ public class DataListenerService extends WearableListenerService
                     .blockingConnect(30, TimeUnit.SECONDS);
             if (!connectionResult.isSuccess())
             {
-                Log.e(TAG, "DataLayerListenerService failed to connect to GoogleApiClient.");
+                Log.e(TAG, "Failed to connect to GoogleApiClient.");
                 return;
             }
         }

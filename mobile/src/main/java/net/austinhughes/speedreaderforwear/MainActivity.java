@@ -1,6 +1,6 @@
 /*
     (C) 2015 - Austin Hughes, Stefan Oswald, Nowele Rechka
-    Last Modified: 2015-01-01
+    Last Modified: 2015-02-12
  */
 
 package net.austinhughes.speedreaderforwear;
@@ -63,6 +63,7 @@ public class MainActivity extends ActionBarActivity
                 .addApi(Wearable.API)
                 .build();
 
+        // Create the data map so we can sync data to Wear
         dataMap = PutDataMapRequest.create("/data");
     }
 
@@ -108,7 +109,10 @@ public class MainActivity extends ActionBarActivity
     // Gets called whenever the send button is pressed
     public void onSendButtonPressed(View v)
     {
+        // Grab the text from the EditText text field
         EditText mEdit = (EditText)findViewById(R.id.editText);
+
+        // Clear the data map then put the text into it, the Google API client will auto sync it to Wear
         dataMap.getDataMap().clear();
         dataMap.getDataMap().putString("editTextValue", mEdit.getText().toString());
         PutDataRequest request = dataMap.asPutDataRequest();

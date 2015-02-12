@@ -1,6 +1,6 @@
 /*
     (C) 2015 - Austin Hughes, Stefan Oswald, Nowele Rechka
-    Last Modified: 2015-01-01
+    Last Modified: 2015-02-12
  */
 
 package net.austinhughes.speedreaderforwear;
@@ -30,7 +30,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,12 +43,13 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     private GoogleApiClient mGoogleApiClient; // The Google API for talking to the phone
     private static final String TAG = "SpeedReader"; // Tag for log
 
-    // Used to "spreed" text data
+    // Used to "speed read" text data
     private String[] currentData;
     private int iterator;
+    private int interval = 250; // speed to update at in ms
 
     // Private data store
-    String FILENAME = "stored_data";
+    private final String FILENAME = "stored_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,17 +66,17 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             {
                 mTextView = (TextView) stub.findViewById(R.id.text);
 
+                // Read in previous data from file on boot
                 try
                 {
                     FileInputStream fis = openFileInput(FILENAME);
                     BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
                     String text = br.readLine();
-                    Log.d(TAG, "Read line from file: " + text);
-
                     currentData = text.split(" ");
-
                     setText("Tap to read data from file.");
+
+                    Log.d(TAG, "Read from file " + FILENAME + " successfully! Text: " + text);
                 }
                 catch (Exception e)
                 {
@@ -92,7 +92,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, "onCreate()");
     }
 
     @Override
@@ -106,7 +106,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             mGoogleApiClient.connect();
         }
 
-        Log.d(TAG, "onResume");
+        Log.d(TAG, "onResume()");
     }
 
     @Override
@@ -118,7 +118,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
         Wearable.DataApi.removeListener(mGoogleApiClient, this);
         mGoogleApiClient.disconnect();
 
-        Log.d(TAG, "onPause");
+        Log.d(TAG, "onPause()");
     }
 
     @Override
@@ -139,25 +139,30 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     @Override
     public void onConnectionFailed(ConnectionResult result)
     {
-        Log.e(TAG, "onConnectionFailed(): Failed to connect with result: " + result);
+        Log.e(TAG, "onConnectionFailed(): Failed to connect to Google API client with result: " + result);
     }
 
     @Override
     public void onDataChanged(DataEventBuffer dataEvents)
     {
-        Log.d(TAG, "onDataChanged" + dataEvents);
+        Log.d(TAG, "onDataChanged(DataEventBuffer dataEvents): " + dataEvents);
 
+        // Get the list of events
         final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
         dataEvents.close();
 
+        // Loop through the data events
         for (DataEvent event : events)
         {
+            // We only care about data changed events
             if (event.getType() == DataEvent.TYPE_CHANGED)
             {
+                // extract the data item
                 DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                 final String text = dataMapItem.getDataMap().get("editTextValue");
                 Log.d(TAG, "DataItem: " + text);
 
+                // write the data out to a file
                 try
                 {
                     // Make sure file is clean
@@ -170,20 +175,23 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 }
                 catch(IOException e)
                 {
-                    Log.d(TAG, "IO Exception " + e.toString());
+                    Log.d(TAG, "IO Exception: " + e.toString());
                 }
 
-
+                // Set up speed reading
                 currentData = text.split(" ");
                 setText("New Data Received. Tap to Read.");
             }
         }
     }
 
+    // Calls iterate text at a fixed interval to allow a user to "speed read"
     public void spreed() throws InterruptedException
     {
-        // this is a silly way to do this
+        // reset iterator
         iterator = 0;
+
+        // Update text at set interval TODO: Make interval configurable
         new Timer().scheduleAtFixedRate(new TimerTask()
         {
             @Override
@@ -195,9 +203,10 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                     this.cancel();
                 }
             }
-        }, 0, 250);
+        }, 0, interval);
     }
 
+    // Helper method for spreed, updates the text by stepping though the currentData array
     private Boolean iterateText()
     {
         if(iterator < currentData.length)
@@ -217,13 +226,17 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
         return false;
     }
 
-
+    // Helper method to set new text in mTextView
     public void setText(String input)
     {
         final String text = input;
-        runOnUiThread(new Runnable() {
+
+        // runs a text update on the UI thread
+        runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 mTextView.setText(text);
             }
         });
