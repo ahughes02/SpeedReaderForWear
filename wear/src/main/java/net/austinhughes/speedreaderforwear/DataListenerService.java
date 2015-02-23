@@ -32,6 +32,8 @@ public class DataListenerService extends WearableListenerService
                 .addApi(Wearable.API)
                 .build();
         mGoogleApiClient.connect();
+
+        Log.d(TAG, "onCreate");
     }
 
     @Override

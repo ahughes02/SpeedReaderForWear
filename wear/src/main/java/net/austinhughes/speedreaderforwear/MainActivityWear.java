@@ -110,18 +110,6 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     }
 
     @Override
-    protected void onPause()
-    {
-        super.onPause();
-
-        // Disconnect from the listener and the Google API
-        Wearable.DataApi.removeListener(mGoogleApiClient, this);
-        mGoogleApiClient.disconnect();
-
-        Log.d(TAG, "onPause()");
-    }
-
-    @Override
     public void onConnected(Bundle connectionHint)
     {
         // Reconnect to the data listener
