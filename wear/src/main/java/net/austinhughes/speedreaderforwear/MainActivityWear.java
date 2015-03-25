@@ -30,8 +30,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -95,16 +93,6 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 .build();
 
         Log.d(TAG, "onCreate()");
-
-        try {
-            URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
-            RSSReader rss = new RSSReader();
-            List list = rss.LoadRSSHeadlines(url);
-        }
-        catch(MalformedURLException e)
-        {
-            Log.d(TAG, e.toString());
-        }
     }
 
     @Override

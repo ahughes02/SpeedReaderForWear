@@ -22,6 +22,10 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
 /*
     Main class for phone side application
  */
@@ -107,6 +111,24 @@ public class MainActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onRSSButtonPressed(View v)
+    {
+        try
+        {
+            URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
+            RSSReader rss = new RSSReader();
+            List list = rss.LoadRSSHeadlines(url);
+
+            Object[] arr = list.toArray();
+
+            Log.d("Object", arr[0].toString());
+        }
+        catch(MalformedURLException e)
+        {
+            Log.d("Error", e.toString());
+        }
     }
 
     // Gets called whenever the send button is pressed

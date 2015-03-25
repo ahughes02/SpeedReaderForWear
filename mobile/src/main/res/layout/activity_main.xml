@@ -22,4 +22,14 @@
         android:layout_below="@+id/editText"
         android:layout_alignParentEnd="true"
         android:onClick="onSendButtonPressed" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RSS Test"
+        android:id="@+id/button"
+        android:layout_below="@+id/sendbutton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="75dp"
+        android:onClick="onRSSButtonPressed" />
 </RelativeLayout>
