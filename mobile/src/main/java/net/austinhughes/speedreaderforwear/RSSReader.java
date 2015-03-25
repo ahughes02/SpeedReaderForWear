@@ -39,20 +39,7 @@ public class RSSReader extends AsyncTask<URL, Void, List>
     {
         Log.d("Debug ", "Finished download");
 
-        try {
 
-            // Write to the file
-            FileWriter fstream = new FileWriter("rss.txt");
-            BufferedWriter out = new BufferedWriter(fstream);
-            for (Object item : result) {
-                Log.d("test", item.toString());
-            }
-            out.close();
-        }
-        catch(Exception e)
-        {
-
-        }
     }
 
     public List LoadRSSHeadlines(URL url)
@@ -63,6 +50,10 @@ public class RSSReader extends AsyncTask<URL, Void, List>
 
         try
         {
+            // Write to the file
+            FileWriter fstream = new FileWriter("rss.txt");
+            BufferedWriter out = new BufferedWriter(fstream);
+
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(false);
             XmlPullParser xpp = factory.newPullParser();
@@ -89,10 +80,14 @@ public class RSSReader extends AsyncTask<URL, Void, List>
                         insideItem = true;
                     } else if (xpp.getName().equalsIgnoreCase("title")) {
                         if (insideItem)
-                            headlines.add(xpp.nextText()); //extract the headline
+                            //headlines.add(xpp.nextText()); //extract the headline
+                            out.write(xpp.nextText());
+                            Log.d("extracting headline, writing headline", "");
                     } else if (xpp.getName().equalsIgnoreCase("link")) {
                         if (insideItem)
-                            links.add(xpp.nextText()); //extract the link of article
+                            //links.add(xpp.nextText()); //extract the link of article
+                            out.write(xpp.nextText());
+                            Log.d("extracting link, writing headline", "");
                     }
                 }else if(eventType==XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")){
                     insideItem=false;
@@ -101,6 +96,8 @@ public class RSSReader extends AsyncTask<URL, Void, List>
                 eventType = xpp.next(); //move to next element
             }
 
+            out.close();
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (XmlPullParserException e) {
@@ -108,6 +105,7 @@ public class RSSReader extends AsyncTask<URL, Void, List>
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return headlines;
     }
