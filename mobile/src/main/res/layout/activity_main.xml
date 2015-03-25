@@ -3,23 +3,69 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@android:color/white">
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:text="Write text to send to Wear" />
+        android:text="Speed Reading"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp"
+        android:textColor="@android:color/black" />
 
     <Button
+        android:id="@+id/readingListButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Reading List"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFFFF"
+        android:onClick="onReadingButtonPressed"/>
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:layout_below="@+id/readingListButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFFFF"
+        android:onClick="onSettingsButtonPressed"/>
+
+    <Button
+        android:id="@+id/takeQuizButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Take Quiz"
+        android:layout_below="@+id/settingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFFFF"
+        android:onClick="onQuizButtonPressed"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write text to send to Wear"
+        android:layout_below="@+id/takeQuizButton"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="send"
-        android:id="@+id/sendbutton"
         android:layout_below="@+id/editText"
-        android:layout_alignParentEnd="true"
         android:onClick="onSendButtonPressed" />
+
 </RelativeLayout>
