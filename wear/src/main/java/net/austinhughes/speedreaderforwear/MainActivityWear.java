@@ -41,7 +41,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
 {
     private TextView mTextView; // Stores the main app text view
     private GoogleApiClient mGoogleApiClient; // The Google API for talking to the phone
-    private static final String TAG = "SpeedReader"; // Tag for log
+    private static final String TAG = "MainActivityWear"; // Tag for log
 
     // Used to "speed read" text data
     private String[] currentData;

@@ -3,16 +3,14 @@
     Last Modified: 2015-02-12
  */
 
-
-
 package net.austinhughes.speedreaderforwear;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.content.Context;
+import android.os.Bundle;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedWriter;
@@ -20,39 +18,41 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
+import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-public class RSSReader extends AsyncTask<URL, Void, List>
+public class RSSReader extends AsyncTask<URL, Void, Boolean>
 {
-    List headlines;
-    List links;
+    private static final String TAG = "RSS Reader"; // Tag for log
+    private final String HEADLINES_FILENAME = "rss_headlines";
 
-    public List doInBackground(URL... urls)
+    private Context ctx;
+
+    public RSSReader (Context context)
+    {
+        ctx = context;
+    }
+
+    public Boolean doInBackground(URL... urls)
     {
         return LoadRSSHeadlines(urls[0]);
     }
 
-    public void onPostExecute(List result)
+    public void onPostExecute(Boolean result)
     {
-        Log.d("Debug ", "Finished download");
-
-
+        Log.d(TAG, "Finished download");
     }
 
-    public List LoadRSSHeadlines(URL url)
+    public Boolean LoadRSSHeadlines(URL url)
     {
-        //initialize instance variables
-        headlines = new ArrayList<>();
-        links = new ArrayList();
-
         try
         {
+            // Make sure file is clean
+            ctx.deleteFile(HEADLINES_FILENAME);
+
             // Write to the file
-            FileWriter fstream = new FileWriter("rss.txt");
-            BufferedWriter out = new BufferedWriter(fstream);
+            FileOutputStream fos = ctx.openFileOutput(HEADLINES_FILENAME, Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(false);
@@ -73,24 +73,38 @@ public class RSSReader extends AsyncTask<URL, Void, List>
 
             // Returns the type of current event: START_TAG, END_TAG, etc..
             int eventType = xpp.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG) {
-
-                    if (xpp.getName().equalsIgnoreCase("item")) {
+            while (eventType != XmlPullParser.END_DOCUMENT)
+            {
+                if (eventType == XmlPullParser.START_TAG)
+                {
+                    if (xpp.getName().equalsIgnoreCase("item"))
+                    {
                         insideItem = true;
-                    } else if (xpp.getName().equalsIgnoreCase("title")) {
-                        if (insideItem)
-                            //headlines.add(xpp.nextText()); //extract the headline
-                            out.write(xpp.nextText());
-                            Log.d("extracting headline, writing headline", "");
-                    } else if (xpp.getName().equalsIgnoreCase("link")) {
-                        if (insideItem)
-                            //links.add(xpp.nextText()); //extract the link of article
-                            out.write(xpp.nextText());
-                            Log.d("extracting link, writing headline", "");
                     }
-                }else if(eventType==XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")){
-                    insideItem=false;
+                    else if (xpp.getName().equalsIgnoreCase("title"))
+                    {
+                        if (insideItem)
+                        {
+                            String text = xpp.nextText();
+                            Log.d(TAG, "Extracted link: " + text);
+                            out.write(text);
+                            out.newLine();
+                        }
+                    }
+                    else if (xpp.getName().equalsIgnoreCase("link"))
+                    {
+                        if (insideItem)
+                        {
+                            String text = xpp.nextText();
+                            Log.d(TAG, "Extracted link: " + text);
+                            out.write(text);
+                            out.newLine();
+                        }
+                    }
+                }
+                else if(eventType==XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item"))
+                {
+                    insideItem = false;
                 }
 
                 eventType = xpp.next(); //move to next element
@@ -98,21 +112,13 @@ public class RSSReader extends AsyncTask<URL, Void, List>
 
             out.close();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "Exception: " + e.toString());
         }
 
-
-        return headlines;
-    }
-
-    public List getHeadlines()
-    {
-        return headlines;
+        return true;
     }
 
     private InputStream getInputStream(URL url) {

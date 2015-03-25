@@ -6,7 +6,6 @@
 package net.austinhughes.speedreaderforwear;
 
 // Imports
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -26,9 +25,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 /*
     Main class for phone side application
@@ -38,6 +35,9 @@ public class MainActivity extends ActionBarActivity
     // Private class variables
     private GoogleApiClient mGoogleApiClient;
     private PutDataMapRequest dataMap;
+
+    private static final String TAG = "MainActivity"; // Tag for log
+    private final String HEADLINES_FILENAME = "rss_headlines";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,12 +54,12 @@ public class MainActivity extends ActionBarActivity
                     {
                         // Now you can use the Data Layer API
                         // Show feedback that we connected to the API for debug
-                        Log.d("Wearable API", "onConnected: " + connectionHint);
+                        Log.d(TAG, "onConnected: " + connectionHint);
                     }
                     @Override
                     public void onConnectionSuspended(int cause)
                     {
-                        Log.d("Wearable API", "onConnectionSuspended: " + cause);
+                        Log.d(TAG, "onConnectionSuspended: " + cause);
                     }
                 })
                 .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener()
@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity
                     @Override
                     public void onConnectionFailed(ConnectionResult result)
                     {
-                        Log.d("Wearable API", "onConnectionFailed: " + result);
+                        Log.d(TAG, "onConnectionFailed: " + result);
                     }
                 })
                 // Request access only to the Wearable API
@@ -76,6 +76,16 @@ public class MainActivity extends ActionBarActivity
 
         // Create the data map so we can sync data to Wear
         dataMap = PutDataMapRequest.create("/data");
+
+        try
+        {
+            URL url = new URL("http://www.pcworld.com/index.rss");
+            new RSSReader(getApplicationContext()).execute(url);
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "Exception " + e.toString());
+        }
     }
 
     @Override
@@ -121,19 +131,16 @@ public class MainActivity extends ActionBarActivity
     {
         try
         {
-            URL url = new URL("http://www.pcworld.com/index.rss");
-            new RSSReader().execute(url);
-
-            FileInputStream fis = openFileInput("rss.txt");
+            FileInputStream fis = openFileInput(HEADLINES_FILENAME);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
             String text = br.readLine();
 
-            Log.d("test", text);
+            Log.d(TAG, text);
         }
         catch(Exception e)
         {
-            Log.d("Error", e.toString());
+            Log.d(TAG, e.toString());
         }
     }
 
