@@ -97,8 +97,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/net/austinhughes/speedreaderforwear/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61764705" vertical-offset="1411" max-vertical-offset="2142">
-              <caret line="130" column="9" selection-start-line="130" selection-start-column="9" selection-end-line="130" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.7647059" vertical-offset="1411" max-vertical-offset="2142">
+              <caret line="135" column="5" selection-start-line="135" selection-start-column="5" selection-end-line="135" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -2553,10 +2553,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="36295" max-vertical-offset="44931">
           <caret line="2146" column="93" selection-start-line="2146" selection-start-column="93" selection-end-line="2146" selection-end-column="93" />
           <folding>
-            <marker date="1427301398421" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1427301398421" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1427301398421" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1427301398421" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1427301649516" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1427301649516" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1427301649516" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1427301649516" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2593,8 +2593,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/net/austinhughes/speedreaderforwear/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61764705" vertical-offset="1411" max-vertical-offset="2142">
-          <caret line="130" column="9" selection-start-line="130" selection-start-column="9" selection-end-line="130" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.7647059" vertical-offset="1411" max-vertical-offset="2142">
+          <caret line="135" column="5" selection-start-line="135" selection-start-column="5" selection-end-line="135" selection-end-column="5" />
           <folding />
         </state>
       </provider>
