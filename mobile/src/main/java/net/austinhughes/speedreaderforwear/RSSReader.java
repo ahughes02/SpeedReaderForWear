@@ -23,16 +23,8 @@ public class RSSReader
     List headlines;
     List links;
 
-<<<<<<< HEAD:mobile/src/main/java/net/austinhughes/speedreaderforwear/RSSActivity.java
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.rss_list);
-
-=======
     public List LoadRSSHeadlines(URL url)
     {
->>>>>>> origin/MobileAppUpdates:mobile/src/main/java/net/austinhughes/speedreaderforwear/RSSReader.java
         //initialize instance variables
         headlines = new ArrayList<>();
         links = new ArrayList();
