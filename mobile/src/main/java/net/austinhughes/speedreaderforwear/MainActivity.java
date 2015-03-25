@@ -124,6 +124,8 @@ public class MainActivity extends ActionBarActivity
             URL url = new URL("http://www.pcworld.com/index.rss");
             new RSSReader().execute(url);
 
+
+
             FileInputStream fis = openFileInput("rss.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
