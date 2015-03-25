@@ -25,8 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF"
-        android:onClick="onReadingButtonPressed"/>
+        android:textColor="#FFFFFFFF" />
 
     <Button
         android:id="@+id/settingsButton"
@@ -37,8 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF"
-        android:onClick="onSettingsButtonPressed"/>
+        android:textColor="#FFFFFFFF" />
 
     <Button
         android:id="@+id/takeQuizButton"
@@ -49,8 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF"
-        android:onClick="onQuizButtonPressed"/>
+        android:textColor="#FFFFFFFF" />
 
     <EditText
         android:id="@+id/editText"

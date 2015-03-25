@@ -25,9 +25,9 @@ public class ReadingListActivity
 {
 
     // Gets called whenever the send button is pressed
-    public void onSendButtonPressed(View v)
-    {
-        EditText mEdit = (EditText)findViewById(R.id.editText);
+    //public void onSendButtonPressed(View v)
+    //{
+        /*EditText mEdit = (EditText)findViewById(R.id.editText);
 
         dataMap.getDataMap().putString("editTextValue", mEdit.getText().toString());
         PutDataRequest request = dataMap.asPutDataRequest();
@@ -35,6 +35,6 @@ public class ReadingListActivity
                 .putDataItem(mGoogleApiClient, request);
 
         Toast.makeText(getBaseContext(), "Sent text to Wear device",
-                Toast.LENGTH_LONG).show();
-    }
+                Toast.LENGTH_LONG).show();*/
+    //}
 }
