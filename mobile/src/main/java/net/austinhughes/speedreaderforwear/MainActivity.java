@@ -6,18 +6,21 @@
 package net.austinhughes.speedreaderforwear;
 
 // Imports
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.android.gms.common.*;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.wearable.*;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 
 /*
     Main class for phone side application
