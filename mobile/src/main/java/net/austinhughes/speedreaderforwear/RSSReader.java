@@ -3,16 +3,9 @@
     Last Modified: 2015-02-12
  */
 
-package net.austinhughes.speedreaderforwear;
 
-// Imports
-import android.app.ListActivity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+
+package net.austinhughes.speedreaderforwear;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -25,26 +18,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    Main class for phone side application
- */
-public class RSSActivity extends ListActivity
+public class RSSReader
 {
     List headlines;
     List links;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    public List LoadRSSHeadlines(URL url)
+    {
         //initialize instance variables
         headlines = new ArrayList<>();
         links = new ArrayList();
 
-        try {
-            URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
-
+        try
+        {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(false);
             XmlPullParser xpp = factory.newPullParser();
@@ -91,25 +77,14 @@ public class RSSActivity extends ListActivity
             e.printStackTrace();
         }
 
-// Binding data
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, headlines);
-
-        setListAdapter(adapter);
+        return headlines;
     }
 
-    public InputStream getInputStream(URL url) {
+    private InputStream getInputStream(URL url) {
         try {
             return url.openConnection().getInputStream();
         } catch (IOException e) {
             return null;
         }
-    }
-
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Uri uri = Uri.parse((String) links.get(position));
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
     }
 }
