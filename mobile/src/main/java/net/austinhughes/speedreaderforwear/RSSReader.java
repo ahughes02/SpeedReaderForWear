@@ -7,10 +7,17 @@
 
 package net.austinhughes.speedreaderforwear;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -18,10 +25,35 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RSSReader
+public class RSSReader extends AsyncTask<URL, Void, List>
 {
     List headlines;
     List links;
+
+    public List doInBackground(URL... urls)
+    {
+        return LoadRSSHeadlines(urls[0]);
+    }
+
+    public void onPostExecute(List result)
+    {
+        Log.d("Debug ", "Finished download");
+
+        try {
+
+            // Write to the file
+            FileWriter fstream = new FileWriter("rss.txt");
+            BufferedWriter out = new BufferedWriter(fstream);
+            for (Object item : result) {
+                Log.d("test", item.toString());
+            }
+            out.close();
+        }
+        catch(Exception e)
+        {
+
+        }
+    }
 
     public List LoadRSSHeadlines(URL url)
     {
@@ -77,6 +109,11 @@ public class RSSReader
             e.printStackTrace();
         }
 
+        return headlines;
+    }
+
+    public List getHeadlines()
+    {
         return headlines;
     }
 

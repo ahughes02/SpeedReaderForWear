@@ -6,6 +6,7 @@
 package net.austinhughes.speedreaderforwear;
 
 // Imports
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -22,6 +23,9 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -117,15 +121,17 @@ public class MainActivity extends ActionBarActivity
     {
         try
         {
-            URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
-            RSSReader rss = new RSSReader();
-            List list = rss.LoadRSSHeadlines(url);
+            URL url = new URL("http://www.pcworld.com/index.rss");
+            new RSSReader().execute(url);
 
-            Object[] arr = list.toArray();
+            FileInputStream fis = openFileInput("rss.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
-            Log.d("Object", arr[0].toString());
+            String text = br.readLine();
+
+            Log.d("test", text);
         }
-        catch(MalformedURLException e)
+        catch(Exception e)
         {
             Log.d("Error", e.toString());
         }
