@@ -36,7 +36,7 @@ public class RSSActivity extends ListActivity
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.rss_list);
 
         //initialize instance variables
         headlines = new ArrayList<>();
