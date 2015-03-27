@@ -1,3 +1,4 @@
+<!--
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.wearable.view.WatchViewStub
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -7,3 +8,53 @@
     app:rectLayout="@layout/rect_activity_main_activity_wear"
     app:roundLayout="@layout/round_activity_main_activity_wear" tools:context=".MainActivityWear"
     tools:deviceIds="wear"></android.support.wearable.view.WatchViewStub>
+-->
+
+    <!-- why won't this commit?!? -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    android:id="@+id/layoutView"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="Speed Up ^"
+        android:id="@+id/speedUpButton"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:textColor="#ff51b46d" />
+
+    <Button
+        android:layout_width="90sp"
+        android:layout_height="wrap_content"
+        android:text="Back Up"
+        android:id="@+id/leftButton"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@android:color/white"
+        android:textColor="#ff51b46d" />
+
+    <Button
+        android:layout_width="90sp"
+        android:layout_height="wrap_content"
+        android:text="Skip Ahead"
+        android:id="@+id/rightButton"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@android:color/white"
+        android:textColor="#ff51b46d" />
+
+    <Button
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="Slow Down"
+        android:id="@+id/slowDownButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:textColor="#ff51b46d" />
+
+</RelativeLayout>
