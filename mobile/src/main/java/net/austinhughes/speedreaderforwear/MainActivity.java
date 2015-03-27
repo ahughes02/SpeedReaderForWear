@@ -38,6 +38,7 @@ public class MainActivity extends ActionBarActivity
 
     private static final String TAG = "MainActivity"; // Tag for log
     private final String HEADLINES_FILENAME = "rss_headlines";
+    private final String DESCRIPTIONS_FILENAME = "rss_descriptions";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -79,7 +80,7 @@ public class MainActivity extends ActionBarActivity
 
         try
         {
-            URL url = new URL("http://www.pcworld.com/index.rss");
+            URL url = new URL("http://www.anandtech.com/rss/");
             new RSSReader(getApplicationContext()).execute(url);
         }
         catch (Exception e)
@@ -131,10 +132,11 @@ public class MainActivity extends ActionBarActivity
     {
         try
         {
-            FileInputStream fis = openFileInput(HEADLINES_FILENAME);
+            FileInputStream fis = openFileInput(DESCRIPTIONS_FILENAME);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
             String text = br.readLine();
+            text = br.readLine();
 
             Log.d(TAG, text);
 
