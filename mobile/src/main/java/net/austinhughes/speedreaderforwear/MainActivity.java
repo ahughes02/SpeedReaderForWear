@@ -137,6 +137,15 @@ public class MainActivity extends ActionBarActivity
             String text = br.readLine();
 
             Log.d(TAG, text);
+
+            if(text != null)
+            {
+                EditText mEdit = (EditText) findViewById(R.id.editText);
+
+                mEdit.setText(text);
+            }
+
+            Log.d(TAG, text);
         }
         catch(Exception e)
         {

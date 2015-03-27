@@ -25,6 +25,7 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
 {
     private static final String TAG = "RSS Reader"; // Tag for log
     private final String HEADLINES_FILENAME = "rss_headlines";
+    private final String DESCRIPTION_FILENAME = "rss_description";
 
     private Context ctx;
 
@@ -86,7 +87,7 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
                         if (insideItem)
                         {
                             String text = xpp.nextText();
-                            Log.d(TAG, "Extracted link: " + text);
+                            Log.d(TAG, "Extracted title: " + text);
                             out.write(text);
                             out.newLine();
                         }
@@ -97,10 +98,15 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
                         {
                             String text = xpp.nextText();
                             Log.d(TAG, "Extracted link: " + text);
-                            out.write(text);
-                            out.newLine();
                         }
                     }
+                    /*else if(xpp.getName().equalsIgnoreCase("description"));
+                    {
+                        if (insideItem)
+                        {
+                            Log.d(TAG, "Extracted description: " + xpp.nextText());
+                        }
+                    }*/
                 }
                 else if(eventType==XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item"))
                 {
