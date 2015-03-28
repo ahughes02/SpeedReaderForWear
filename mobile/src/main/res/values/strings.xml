@@ -7,5 +7,11 @@
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="title_activity_read">ReadActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="Story1">Little Red Riding Hood</string>
+    <string name="Story2">Harry Potter</string>
+    <string name="Story3">The Martian</string>
+    <string name="Story4">Lord of the Rings</string>
+    <string name="Story5">Lord of the Flies</string>
+
 
 </resources>
