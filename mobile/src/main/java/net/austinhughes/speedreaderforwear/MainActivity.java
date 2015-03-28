@@ -7,6 +7,7 @@ package net.austinhughes.speedreaderforwear;
 
 // Imports
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,8 +26,11 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -42,9 +47,13 @@ public class MainActivity extends Activity
     private static final String TAG = "MainActivity"; // Tag for log
     private final String HEADLINES_FILENAME = "rss_headlines";
     private final String DESCRIPTIONS_FILENAME = "rss_descriptions";
+    private final String SETTINGS_FILENAME = "settings";
 
     // Holds the RSS item descriptions
     private String[] descriptions;
+
+    private String rssFeed;
+    private int wpm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,10 +93,27 @@ public class MainActivity extends Activity
         // Create the data map so we can sync data to Wear
         dataMap = PutDataMapRequest.create("/data");
 
+        // Load in saved settings if any
+        try
+        {
+            FileInputStream fis = openFileInput(SETTINGS_FILENAME);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            wpm = Integer.parseInt(br.readLine());
+            rssFeed = br.readLine();
+        }
+        catch(Exception e)
+        {
+            wpm = 240;
+            rssFeed = "http://www.anandtech.com/rss/";
+            Log.d(TAG, e.toString());
+        }
+
+
         // Load in the RSS data
         try
         {
-            URL url = new URL("http://www.anandtech.com/rss/");
+            URL url = new URL(rssFeed);
             new RSSReader(getApplicationContext()).execute(url);
         }
         catch (Exception e)
@@ -164,7 +190,9 @@ public class MainActivity extends Activity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Log.d(TAG, "onItemClick Item " + position + " description " + descriptions[position]);
-                sendArticleToWear(descriptions[position]);
+                sendDataToWear("CustomText", descriptions[position]);
+                Toast.makeText(getBaseContext(), "Article sent to wear successfully.",
+                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -185,7 +213,10 @@ public class MainActivity extends Activity
         EditText mEdit = (EditText)findViewById(R.id.editText);
 
         // send the current text to Wear
-        sendArticleToWear(mEdit.getText().toString());
+        sendDataToWear("CustomText", mEdit.getText().toString());
+
+        Toast.makeText(getBaseContext(), "Article sent to wear successfully.",
+                Toast.LENGTH_LONG).show();
     }
 
     // Gets called when the reading list button is pressed, opens the reading list view
@@ -198,6 +229,11 @@ public class MainActivity extends Activity
     public void onSettingsButtonPressed(View v)
     {
         setContentView(R.layout.activity_settings);
+
+        EditText wpmText = (EditText)findViewById(R.id.enterReadingSpeed);
+        wpmText.setText(Integer.toString(wpm));
+        EditText rssFeedText = (EditText)findViewById(R.id.enterRssFeed);
+        rssFeedText.setText(rssFeed);
     }
 
     // Gets called when the quiz button is pressed, opens the quiz view
@@ -211,12 +247,55 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
     }
 
+    public void onSaveSettingsPressed(View v)
+    {
+        try
+        {
+            // get new values
+            EditText wpmText = (EditText)findViewById(R.id.enterReadingSpeed);
+            wpm = (int)Double.parseDouble(wpmText.getText().toString());
+            EditText rssFeedText = (EditText)findViewById(R.id.enterRssFeed);
+            rssFeed = rssFeedText.getText().toString();
+
+            Log.d(TAG, "New WPM: " + wpm);
+            int interval = (int)((60.0/wpm)*1000);
+            Log.d(TAG, "Interval will be: " + Integer.toString(interval));
+            Log.d(TAG, "new RSS: " + rssFeed);
+
+            // delete old file
+            deleteFile(SETTINGS_FILENAME);
+
+            // output new file
+            FileOutputStream fos = openFileOutput(SETTINGS_FILENAME, Context.MODE_PRIVATE);
+            BufferedWriter SettingsOut = new BufferedWriter(new OutputStreamWriter(fos));
+
+            SettingsOut.write(wpm);
+            SettingsOut.newLine();
+            SettingsOut.write(rssFeed);
+            SettingsOut.close();
+
+            URL url = new URL(rssFeed);
+            new RSSReader(getApplicationContext()).execute(url);
+
+            sendDataToWear("Interval", Integer.toString(interval));
+
+            Toast.makeText(getBaseContext(), "Settings Updated!",
+                    Toast.LENGTH_LONG).show();
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getBaseContext(), "Error saving settings: " + e.toString(),
+                    Toast.LENGTH_LONG).show();
+            Log.d(TAG, e.toString());
+        }
+    }
+
     // Sends the text to wear
-    private void sendArticleToWear(String article)
+    private void sendDataToWear(String mapLocation, String data)
     {
         // Clear the data map then put the text into it, the Google API client will auto sync it to Wear
         dataMap.getDataMap().clear();
-        dataMap.getDataMap().putString("editTextValue", article);
+        dataMap.getDataMap().putString(mapLocation, data);
         PutDataRequest request = dataMap.asPutDataRequest();
         PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
                 .putDataItem(mGoogleApiClient, request);

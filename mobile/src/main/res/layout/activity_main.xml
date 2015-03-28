@@ -69,11 +69,11 @@
         android:layout_height="wrap_content"
         android:text="send"
         android:onClick="onSendButtonPressed"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="#FFFFFFFF"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp" />
 
     <Button
         android:id="@+id/rssButton"

@@ -25,7 +25,9 @@
         android:layout_marginTop="20dp"
         android:onClick="onStory1ButtonPressed"
         android:layout_alignEnd="@+id/button5"
-        android:layout_alignStart="@+id/button5" />
+        android:layout_alignStart="@+id/button5"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,7 +38,9 @@
         android:layout_marginTop="20dp"
         android:onClick="onStory2ButtonPressed"
         android:layout_alignStart="@+id/button2"
-        android:layout_alignEnd="@+id/button2" />
+        android:layout_alignEnd="@+id/button2"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="wrap_content"
@@ -47,7 +51,9 @@
         android:layout_marginTop="20dp"
         android:onClick="onStory3ButtonPressed"
         android:layout_alignStart="@+id/button3"
-        android:layout_alignEnd="@+id/button3" />
+        android:layout_alignEnd="@+id/button3"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="wrap_content"
@@ -57,7 +63,9 @@
         android:layout_below="@+id/button4"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:onClick="onStory4ButtonPressed"/>
+        android:onClick="onStory4ButtonPressed"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="wrap_content"
@@ -68,15 +76,21 @@
         android:layout_marginTop="20dp"
         android:onClick="onStory5ButtonPressed"
         android:layout_alignStart="@+id/button5"
-        android:layout_alignEnd="@+id/button5" />
+        android:layout_alignEnd="@+id/button5"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFF" />
 
     <Button
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="back"
         android:id="@+id/button"
         android:onClick="onBackButtonPressed"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFF"
         android:layout_alignBottom="@+id/rssTitle"
-        android:layout_toStartOf="@+id/rssTitle" />
+        android:layout_toStartOf="@+id/rssTitle"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

@@ -68,10 +68,11 @@
         android:textColor="#ffffffff"
         android:background="#ff23272a"
         android:layout_alignEnd="@+id/textReadSpeed"
-        android:layout_alignStart="@+id/settingsTitle" />
+        android:layout_alignStart="@+id/settingsTitle"
+        android:onClick="onSaveSettingsPressed" />
 
     <Button
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="back"
         android:id="@+id/button7"

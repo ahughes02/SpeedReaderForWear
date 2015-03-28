@@ -8,6 +8,7 @@ package net.austinhughes.speedreaderforwear;
 // Imports
 import android.app.Activity;
 import android.content.Context;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
@@ -45,11 +46,14 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
 
     // Used to "speed read" text data
     private String[] currentData;
-    private int iterator;
+    private int iterator = 0;
+    private boolean reading = false;
     private int interval = 250; // speed to update at in ms
 
     // Private data store
     private final String FILENAME = "stored_data";
+    private final String SETTINGS_FILENAME = "settings";
+    private final String ITERATOR_FILENAME = "iterator";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,6 +70,22 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             {
                 mTextView = (TextView) stub.findViewById(R.id.text);
 
+                // Read in settings from file on boot
+                try
+                {
+                    FileInputStream fis = openFileInput(SETTINGS_FILENAME);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+                    String text = br.readLine();
+                    interval = Integer.parseInt(text);
+
+                    Log.d(TAG, "Read from file " + SETTINGS_FILENAME + " successfully! Interval: " + text);
+                }
+                catch (Exception e)
+                {
+                    Log.d(TAG, "Unable to read saved data: " + e.toString());
+                }
+
                 // Read in previous data from file on boot
                 try
                 {
@@ -77,6 +97,23 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                     setText("Tap to read data from file.");
 
                     Log.d(TAG, "Read from file " + FILENAME + " successfully! Text: " + text);
+                }
+                catch (Exception e)
+                {
+                    Log.d(TAG, "Unable to read saved data: " + e.toString());
+                }
+
+                // Read in previous iterator from file on boot
+                try
+                {
+                    FileInputStream fis = openFileInput(ITERATOR_FILENAME);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+                    String text = br.readLine();
+                    iterator = Integer.parseInt(text);
+                    setText("Tap to resume reading");
+
+                    Log.d(TAG, "Read from file " + ITERATOR_FILENAME + " successfully! Text: " + text);
                 }
                 catch (Exception e)
                 {
@@ -157,30 +194,66 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             // We only care about data changed events
             if (event.getType() == DataEvent.TYPE_CHANGED)
             {
-                // extract the data item
                 DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
-                final String text = dataMapItem.getDataMap().get("editTextValue");
-                Log.d(TAG, "DataItem: " + text);
-
-                // write the data out to a file
                 try
                 {
-                    // Make sure file is clean
-                    deleteFile(FILENAME);
+                    // extract the data item
+                    final String text = dataMapItem.getDataMap().get("CustomText");
+                    Log.d(TAG, "CustomText: " + text);
 
-                    // Write to the file
-                    FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-                    fos.write(text.getBytes());
-                    fos.close();
+                    // write the data out to a file
+                    try
+                    {
+                        // Make sure file is clean
+                        deleteFile(FILENAME);
+
+                        // Write to the file
+                        FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                        fos.write(text.getBytes());
+                        fos.close();
+                    } catch (IOException e) {
+                        Log.d(TAG, "IO Exception: " + e.toString());
+                    }
+
+                    reading = false;
+                    // Set up speed reading
+                    currentData = text.split(" ");
+                    setText("New Data Received. Tap to Read.");
                 }
-                catch(IOException e)
+                catch(Exception e)
                 {
-                    Log.d(TAG, "IO Exception: " + e.toString());
+                    Log.d(TAG, e.toString());
                 }
 
-                // Set up speed reading
-                currentData = text.split(" ");
-                setText("New Data Received. Tap to Read.");
+                try
+                {
+                    // extract the data item
+                    final String text = dataMapItem.getDataMap().get("Interval");
+                    Log.d(TAG, "Interval: " + text);
+
+                    // write the data out to a file
+                    try
+                    {
+                        // Make sure file is clean
+                        deleteFile(SETTINGS_FILENAME);
+
+                        // Write to the file
+                        FileOutputStream fos = openFileOutput(SETTINGS_FILENAME, Context.MODE_PRIVATE);
+                        fos.write(text.getBytes());
+                        fos.close();
+
+                    } catch (IOException e)
+                    {
+                        Log.d(TAG, "IO Exception: " + e.toString());
+                    }
+
+                    // Set up speed reading
+                    interval = Integer.parseInt(text);
+                }
+                catch (Exception e)
+                {
+                    Log.d(TAG, e.toString());
+                }
             }
         }
     }
@@ -188,10 +261,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     // Calls iterate text at a fixed interval to allow a user to "speed read"
     public void spreed() throws InterruptedException
     {
-        // reset iterator
-        iterator = 0;
-
-        // Update text at set interval TODO: Make interval configurable
+        // Update text at set interval
         new Timer().scheduleAtFixedRate(new TimerTask()
         {
             @Override
@@ -200,6 +270,7 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 if(!iterateText())
                 {
                     setText("Tap to read again");
+                    iterator = 0;
                     this.cancel();
                 }
             }
@@ -223,6 +294,12 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
             return true;
         }
 
+        if(!reading)
+        {
+            return false;
+        }
+
+        reading = false;
         return false;
     }
 
@@ -245,6 +322,11 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     // Gets called whenever the text is pressed
     public void onTextPressed(View v) throws InterruptedException
     {
-        spreed();
+        if(!reading)
+        {
+            iterator = 0;
+            reading = true;
+            spreed();
+        }
     }
 }
