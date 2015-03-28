@@ -18,11 +18,44 @@
 
     <TextView
         android:id="@+id/textReadSpeed"
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reading Speed (in words per minute): "
         android:layout_below="@+id/settingsTitle"
         android:textSize="15sp"
         android:textColor="@android:color/black"/>
+
+    <EditText
+        android:id="@+id/enterReadingSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/settingsTitle"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textReadSpeed"/>
+
+    <TextView
+        android:id="@+id/textRssFeed"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RSS Feed: "
+        android:layout_below="@+id/enterReadingSpeed"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"/>
+
+    <EditText
+        android:id="@+id/enterRssFeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textUri"
+        android:ems="10"
+        android:layout_below="@+id/textReadSpeed"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textRssFeed"/>
 
 </RelativeLayout>
