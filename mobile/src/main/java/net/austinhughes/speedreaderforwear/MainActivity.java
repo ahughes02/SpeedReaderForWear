@@ -247,6 +247,87 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
     }
 
+    public void onStory1ButtonPressed(View v)
+    {
+        String story = "To understand meteors, one must also understand meteoroids and meteorites. " +
+                "First, a meteoroid is a particle in the solar system. The meteoroid may be as small as a grain of sand, or, as large as a boulder. " +
+                "When the meteor enters the Earth\'s atmosphere, and becomes visible as a shooting star, it is called a meteor. " +
+                "If the meteor makes it to the ground, it is called a meteorite. Meteors, " +
+                "also called shooting stars, occur in the Earth\'s mesosphere at an altitude of about 40-60 miles. " +
+                "Millions of meteors enter the Earth\'s atmosphere every day, though the vast majority are observed at night. " +
+                "Their visibility in the night sky is due to air friction which causes the meteor to glow and emit a trail of gasses " +
+                "and melted particles that lasts for about a second. Meteor showers are relatively common events that occur when the " +
+                "Earth passes through a trail of debris left by a comet. Sometimes Meteoroids make it throughout the atmosphere and hit the ground, " +
+                "where they are referred to as meteorites. " +
+                "There are over 31,000 documented meteorites to have been found, although only five or " +
+                "six new ones are found every year. The largest meteorite ever found was in the African nation of Namibia. " +
+                "It weighs over 100 tons and left a huge impact crater in the ground. " +
+                "Scientists believe the massive Berringer Carter in Arizona was formed when a 300,000 ton meteorite crashed to the ground over 49,000 years ago. " +
+                "On November 30, 1954, the Hodges Meteorite (actually a fragment of a meteorite) crashed through the roof of the residence of Ann Hodges in the town of Sylacauga, Alabama. " +
+                "It bounced off a table before striking her in the leg. Although she was badly bruised, she was not seriously injured. " +
+                "It was the first recorded instance of a meteorite injuring a human. " +
+                "The actual meteorite was donated to the Alabama Museum of Natural History after various legal battles concerning ownership. " +
+                "Some scientists believe the impact of a large meteorite from an asteroid or comet in Mexico\'s " +
+                "Yucatan Peninsula was responsible for the extinction of dinosaurs some 65 million years ago. " +
+                "Such an impact would have had catastrophic global consequences including immediate climate change, " +
+                "numerous earthquakes, volcano eruptions, wildfires, and massive supertsuanims, along with the proliferation " +
+                "of massive amounts of dust and debris that would block solar energy and lead to a disruption in photosynthesis. " +
+                "Most meteorites that reach the Earth are classified as chondrites or achondrites, while a small percentage are " +
+                "iron meteorites and stony-iron meteorites. Most meteorites are chondrites. Chondrites contain silicate materials that " +
+                "were melted in space, amino acids, and other presolar grains, particles likely formed from stellar explosions. Diamond " +
+                "and graphite are among materials found to be present in these grains. Chondrites are thought to be over 4.5 billion years of " +
+                "age and to have originated in the asteroid belt, where they never formed larger bodies. Achondrites are less common. " +
+                "These type of meteorites seem to be similar to igneous rock. Iron meteorites make up less than five percent of meteorite finds. " +
+                "These type of meteorites are thought to come from the core of asteroids that were once molten. " +
+                "Finally, stony-iron meteorites constitute less than one percent of all meteorite falls. They are made of iron-nickel metal and different silicates.";
+
+        sendDataToWear("CustomText", story);
+    }
+
+    public void onStory2ButtonPressed(View v)
+    {
+        String story = "Peru's Inca Indians first grew potatoes in the Andes in about 200 B.C. " +
+                "Spanish conquistadors brought potatoes to Europe, and colonists brought them to " +
+                "America. Potatoes are fourth on the list of the world's food staples – after wheat," +
+                " corn and rice. Today, Americans consume about 140 pounds of potatoes per person every " +
+                "year while Europeans eat twice as many. One of our favorite ways to eat potatoes is in " +
+                "the form of potato chips. While Benjamin Franklin was the US ambassador to France, " +
+                "he went to a banquet where potatoes were prepared in 20 different ways. Thomas Jefferson, " +
+                "who succeeded Franklin as our French ambassador, brought the recipe for thick-cut, " +
+                "French-fried potatoes to America. He served French fries to guests at the White House " +
+                "in 1802 and at his home, Monticello. On August 24, 1853, at Moon Lake Lodge in " +
+                "Saratoga, New York, a native-American chef named George Crum created the first potato chips. " +
+                "He became angry when a diner complained that his French fries were too thick, " +
+                "so he sliced the potatoes as thinly as possible making them too thin and crisp to eat with a fork. " +
+                "The diner loved them, and potato chips were born. In 1860 Chef Crum opened his own restaurant " +
+                "and offered a basket of potato chips on every table. In the 1950s, in Ireland, " +
+                "Joe \"Spud\" Murphy and Seamus Burke, produced the world's first seasoned crisps, " +
+                "Cheese & Onion and Salt & Vinegar. In the United Kingdom and " +
+                "Ireland crisps are what we in the United States call potato chips while chips refer to our " +
+                "French fries. Ketchup flavored chips are popular in the Mid-East and Canada. Seaweed is popular in the Asia, " +
+                "and Mexicans like chicken flavored chips. Other flavors from around the world include: paprika, pickled onion, " +
+                "béarnaise, meat pie, Chili Crab, Salmon Teriyaki, Borscht, Caesar Salad, Roasted Sausage, Firecracker Lobster, Roast Ox, Haggis and Black Pepper, " +
+                "Olive, and Spaghetti. About 27 pounds of potato chips are produced from 100 pounds of potatoes. " +
+                "Americans consume 2-4 billion pounds of potato chips every year, and spend more than $7 billion a year on them.";
+
+        sendDataToWear("CustomText", story);
+    }
+
+    public void onStory3ButtonPressed(View v)
+    {
+
+    }
+
+    public void onStory4ButtonPressed(View v)
+    {
+
+    }
+
+    public void onStory5ButtonPressed(View v)
+    {
+
+    }
+
     public void onSaveSettingsPressed(View v)
     {
         try
