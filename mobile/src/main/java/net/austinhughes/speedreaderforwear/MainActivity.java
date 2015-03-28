@@ -12,7 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 /*
     Main class for phone side application
@@ -39,6 +44,8 @@ public class MainActivity extends ActionBarActivity
     private static final String TAG = "MainActivity"; // Tag for log
     private final String HEADLINES_FILENAME = "rss_headlines";
     private final String DESCRIPTIONS_FILENAME = "rss_descriptions";
+
+    private String[] descriptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -130,30 +137,58 @@ public class MainActivity extends ActionBarActivity
 
     public void onRSSButtonPressed(View v)
     {
-        setContentView(R.layout.activity_rss);
-        /*try
+        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list2 = new ArrayList<String>();
+        descriptions = new String[0];
+
+        try
         {
-            FileInputStream fis = openFileInput(DESCRIPTIONS_FILENAME);
+            FileInputStream fis = openFileInput(HEADLINES_FILENAME);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
+            FileInputStream fis2 = openFileInput(DESCRIPTIONS_FILENAME);
+            BufferedReader br2 = new BufferedReader(new InputStreamReader(fis2));
+
             String text = br.readLine();
-            text = br.readLine();
-
-            Log.d(TAG, text);
-
-            if(text != null)
+            String text2 = br2.readLine();
+;
+            while (text != null && text2 != null)
             {
-                EditText mEdit = (EditText) findViewById(R.id.editText);
-
-                mEdit.setText(text);
+                list.add(text);
+                list2.add(text2);
+                text = br.readLine();
+                text2 = br2.readLine();
             }
 
-            Log.d(TAG, text);
+            br.close();
+            br2.close();
+
+            descriptions = list2.toArray(new String[list2.size()]);
+            /*for(int i = 0; i < descriptions.length; i++)
+            {
+                Log.d(TAG, "Descriptions array: " + descriptions[i]);
+            }*/
+
         }
         catch(Exception e)
         {
             Log.d(TAG, e.toString());
-        }*/
+        }
+
+        setContentView(R.layout.activity_rss);
+        final ListView listview = (ListView) findViewById(R.id.rssList);
+        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        listview.setAdapter(adapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Log.d(TAG, "onItemClick Item " + position + " description " + descriptions[position]);
+                sendArticleToWear(descriptions[position]);
+            }
+        });
+
     }
 
     // Gets called whenever the send button is pressed
@@ -172,12 +207,7 @@ public class MainActivity extends ActionBarActivity
         // Grab the text from the EditText text field
         EditText mEdit = (EditText)findViewById(R.id.editText);
 
-        // Clear the data map then put the text into it, the Google API client will auto sync it to Wear
-        dataMap.getDataMap().clear();
-        dataMap.getDataMap().putString("editTextValue", mEdit.getText().toString());
-        PutDataRequest request = dataMap.asPutDataRequest();
-        PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
-                .putDataItem(mGoogleApiClient, request);
+        sendArticleToWear(mEdit.getText().toString());
     }
 
     public void onReadingButtonPressed(View v)
@@ -197,5 +227,15 @@ public class MainActivity extends ActionBarActivity
 
     public void onBackButtonPressed(View v) {
         setContentView(R.layout.activity_main);
+    }
+
+    private void sendArticleToWear(String article)
+    {
+        // Clear the data map then put the text into it, the Google API client will auto sync it to Wear
+        dataMap.getDataMap().clear();
+        dataMap.getDataMap().putString("editTextValue", article);
+        PutDataRequest request = dataMap.asPutDataRequest();
+        PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
+                .putDataItem(mGoogleApiClient, request);
     }
 }

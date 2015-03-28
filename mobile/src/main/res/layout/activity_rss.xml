@@ -26,4 +26,11 @@
         android:layout_alignParentStart="true"
         android:background="#ff23272a"
         android:textColor="#ffffffff" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssList"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rssTitle" />
 </RelativeLayout>

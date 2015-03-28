@@ -51,6 +51,9 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
         {
             // Make sure file is clean
             ctx.deleteFile(HEADLINES_FILENAME);
+            ctx.deleteFile(DESCRIPTIONS_FILENAME);
+
+            Log.d(TAG, "Start Download");
 
             // Write to the file
             FileOutputStream fos = ctx.openFileOutput(HEADLINES_FILENAME, Context.MODE_PRIVATE);
@@ -66,7 +69,6 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
             // We will get the XML from an input stream
             xpp.setInput(getInputStream(url), "UTF-8");
             event = xpp.getEventType();
-
             while (event != XmlPullParser.END_DOCUMENT)
             {
                 String name = xpp.getName();
@@ -91,15 +93,18 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
                         }
                         else if(name.equals("description"))
                         {
-                            text = CleanDescription(text);
-                            Log.d(TAG, "Description: " + text);
-                            DescriptionsOut.write(text);
-                            DescriptionsOut.newLine();
+                                text = CleanDescription(text);
+                                Log.d(TAG, "Description: " + text);
+                                DescriptionsOut.write(text);
+                                DescriptionsOut.newLine();
                         }
                         break;
                 }
                 event = xpp.next();
             }
+
+            DescriptionsOut.close();
+            HeadlinesOut.close();
         }
         catch (Exception e)
         {
@@ -111,6 +116,18 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
 
     private String CleanDescription(String description)
     {
+        int index=0;
+        int index2=0;
+        while(index!=-1)
+        {
+            index = description.indexOf("<");
+            index2 = description.indexOf(">", index);
+            if(index!=-1 && index2!=-1)
+            {
+                description = description.substring(0, index).concat(description.substring(index2+1, description.length()));
+            }
+        }
+        description = description.replace("\n", "").replace("\r", "");
         return android.text.Html.fromHtml(description).toString();
     }
 
