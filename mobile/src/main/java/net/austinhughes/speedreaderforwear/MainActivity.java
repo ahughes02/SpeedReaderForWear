@@ -168,4 +168,19 @@ public class MainActivity extends ActionBarActivity
         PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
                 .putDataItem(mGoogleApiClient, request);
     }
+
+    public void onReadingButtonPressed(View v)
+    {
+        setContentView(R.layout.activity_read);
+    }
+
+    public void onSettingsButtonPressed(View v)
+    {
+        setContentView(R.layout.activity_settings);
+    }
+
+    public void onQuizButtonPressed(View v)
+    {
+        setContentView(R.layout.activity_quiz);
+    }
 }
