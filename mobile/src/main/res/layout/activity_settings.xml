@@ -18,13 +18,14 @@
 
     <TextView
         android:id="@+id/textReadSpeed"
-        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reading Speed (in words per minute): "
-        android:layout_below="@+id/settingsTitle"
         android:textSize="15sp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/settingsTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:id="@+id/enterReadingSpeed"
@@ -32,20 +33,19 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/settingsTitle"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/textReadSpeed"/>
+        android:text="240"
+        android:layout_below="@+id/textReadSpeed"
+        android:layout_toEndOf="@+id/settingsTitle" />
 
     <TextView
         android:id="@+id/textRssFeed"
-        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RSS Feed: "
-        android:layout_below="@+id/enterReadingSpeed"
         android:textSize="15sp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/enterReadingSpeed"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/enterRssFeed"
@@ -53,10 +53,10 @@
         android:layout_height="wrap_content"
         android:inputType="textUri"
         android:ems="10"
-        android:layout_below="@+id/textReadSpeed"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/textRssFeed"/>
+        android:text="http://www.anandtech.com/rss/"
+        android:layout_below="@+id/textRssFeed"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/enterReadingSpeed" />
 
     <Button
         android:layout_width="wrap_content"
@@ -65,7 +65,20 @@
         android:id="@+id/updateSettingsButton"
         android:layout_below="@+id/enterRssFeed"
         android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="false" />
+        android:textColor="#ffffffff"
+        android:background="#ff23272a"
+        android:layout_alignEnd="@+id/textReadSpeed"
+        android:layout_alignStart="@+id/settingsTitle" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:id="@+id/button7"
+        android:onClick="onBackButtonPressed"
+        android:layout_alignBottom="@+id/settingsTitle"
+        android:layout_alignParentStart="true"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff" />
 
 </RelativeLayout>

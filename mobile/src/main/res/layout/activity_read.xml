@@ -7,24 +7,25 @@
     tools:context="net.austinhughes.speedreaderforwear.ReadActivity">
 
     <TextView
-        android:id="@+id/readingTitle"
+        android:id="@+id/rssTitle"
         android:text="Reading List"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:textSize="40sp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Story1"
         android:id="@+id/button2"
-        android:layout_below="@+id/readingTitle"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rssTitle"
         android:layout_marginTop="20dp"
-        android:onClick="onStory1ButtonPressed"/>
+        android:onClick="onStory1ButtonPressed"
+        android:layout_alignEnd="@+id/button5"
+        android:layout_alignStart="@+id/button5" />
 
     <Button
         android:layout_width="wrap_content"
@@ -32,9 +33,10 @@
         android:text="@string/Story2"
         android:id="@+id/button3"
         android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:onClick="onStory2ButtonPressed"/>
+        android:onClick="onStory2ButtonPressed"
+        android:layout_alignStart="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
 
     <Button
         android:layout_width="wrap_content"
@@ -42,9 +44,10 @@
         android:text="@string/Story3"
         android:id="@+id/button4"
         android:layout_below="@+id/button3"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:onClick="onStory3ButtonPressed"/>
+        android:onClick="onStory3ButtonPressed"
+        android:layout_alignStart="@+id/button3"
+        android:layout_alignEnd="@+id/button3" />
 
     <Button
         android:layout_width="wrap_content"
@@ -62,8 +65,18 @@
         android:text="@string/Story5"
         android:id="@+id/button6"
         android:layout_below="@+id/button5"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:onClick="onStory5ButtonPressed"/>
+        android:onClick="onStory5ButtonPressed"
+        android:layout_alignStart="@+id/button5"
+        android:layout_alignEnd="@+id/button5" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:id="@+id/button"
+        android:onClick="onBackButtonPressed"
+        android:layout_alignBottom="@+id/rssTitle"
+        android:layout_toStartOf="@+id/rssTitle" />
 
 </RelativeLayout>

@@ -130,7 +130,8 @@ public class MainActivity extends ActionBarActivity
 
     public void onRSSButtonPressed(View v)
     {
-        try
+        setContentView(R.layout.activity_rss);
+        /*try
         {
             FileInputStream fis = openFileInput(DESCRIPTIONS_FILENAME);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -152,8 +153,18 @@ public class MainActivity extends ActionBarActivity
         catch(Exception e)
         {
             Log.d(TAG, e.toString());
-        }
+        }*/
     }
+
+    // Gets called whenever the send button is pressed
+    public void onEditTextPressed(View v)
+    {
+        // Grab the text from the EditText text field
+        EditText mEdit = (EditText)findViewById(R.id.editText);
+
+        mEdit.setText("");
+    }
+
 
     // Gets called whenever the send button is pressed
     public void onSendButtonPressed(View v)
@@ -182,5 +193,9 @@ public class MainActivity extends ActionBarActivity
     public void onQuizButtonPressed(View v)
     {
         setContentView(R.layout.activity_quiz);
+    }
+
+    public void onBackButtonPressed(View v) {
+        setContentView(R.layout.activity_main);
     }
 }

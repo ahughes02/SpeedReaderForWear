@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/quizTitle"
-        android:text="Take a Quiz"
+        android:text="Quiz"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="40sp"
@@ -31,7 +31,9 @@
         android:text="Begin"
         android:id="@+id/buttonBeginQuiz"
         android:layout_below="@+id/textReady"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffffff"
+        android:background="#ff23272a" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,6 +84,17 @@
         android:id="@+id/checkBox5"
         android:layout_below="@+id/checkBox4"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:id="@+id/button8"
+        android:onClick="onBackButtonPressed"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff" />
 
 
 </RelativeLayout>

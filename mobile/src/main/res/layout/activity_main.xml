@@ -11,71 +11,79 @@
         android:layout_height="wrap_content"
         android:text="Speed Reading"
         android:id="@+id/textView"
+        android:textSize="40sp"
+        android:textColor="@android:color/black"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="40sp"
-        android:textColor="@android:color/black" />
+        android:layout_marginTop="-10dp" />
 
     <Button
         android:id="@+id/readingListButton"
         android:onClick="onReadingButtonPressed"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="Reading List"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="#FFFFFFFF"
+        android:layout_above="@+id/takeQuizButton"
+        android:layout_alignStart="@+id/settingsButton"
+        android:layout_marginTop="5dp" />
 
     <Button
         android:id="@+id/settingsButton"
         android:onClick="onSettingsButtonPressed"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="Settings"
-        android:layout_below="@+id/readingListButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="#FFFFFFFF"
+        android:layout_alignTop="@+id/takeQuizButton"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/takeQuizButton"
         android:onClick="onQuizButtonPressed"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="Take Quiz"
-        android:layout_below="@+id/settingsButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:background="#ff23272a"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="#FFFFFFFF"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/rssButton"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write text to send to Wear"
-        android:layout_below="@+id/takeQuizButton"
+        android:text="Copy and paste an article you want to send to the watch here, then press send. If you&apos;d like you can also type something here to send."
+        android:layout_below="@+id/settingsButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:onClick="onEditTextPressed" />
 
     <Button
         android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="send"
         android:onClick="onSendButtonPressed"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFFFF" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RSS Test"
-        android:id="@+id/button"
+        android:id="@+id/rssButton"
         android:onClick="onRSSButtonPressed"
-        android:layout_alignTop="@+id/sendButton"
-        android:layout_alignParentEnd="true" />
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="RSS"
+        android:background="#ff23272a"
+        android:textColor="#FFFFFFFF"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>
