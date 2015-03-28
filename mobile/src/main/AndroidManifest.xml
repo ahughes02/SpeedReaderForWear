@@ -32,6 +32,10 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name=".Story1"
+            android:label="@string/title_activity_story1" >
+        </activity>
     </application>
 
 </manifest>

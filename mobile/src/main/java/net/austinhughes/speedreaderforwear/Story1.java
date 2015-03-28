@@ -4,22 +4,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 
-public class ReadActivity extends ActionBarActivity {
+public class Story1 extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_read);
+        setContentView(R.layout.activity_story1);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_read, menu);
+        getMenuInflater().inflate(R.menu.menu_story1, menu);
         return true;
     }
 
@@ -37,11 +36,4 @@ public class ReadActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    public void onStory1ButtonPressed(View v)
-//    {
-//        finish();
-//        setContentView(R.layout.activity_story1);
-//    }
-
 }
