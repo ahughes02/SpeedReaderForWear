@@ -33,4 +33,22 @@
         android:layout_below="@+id/textReady"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textChooseStory"
+        android:textSize="20sp"
+        android:layout_below="@+id/buttonBeginQuiz"
+        android:layout_alignParentStart="true"
+        android:text="Choose Story: " />
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListView"
+        android:layout_below="@+id/buttonBeginQuiz"
+        android:layout_toEndOf="@+id/textChooseStory" />
+
+
+
 </RelativeLayout>

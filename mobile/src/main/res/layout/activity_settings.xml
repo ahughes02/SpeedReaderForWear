@@ -58,4 +58,14 @@
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/textRssFeed"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Settings"
+        android:id="@+id/updateSettingsButton"
+        android:layout_below="@+id/enterRssFeed"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="false" />
+
 </RelativeLayout>
