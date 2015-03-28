@@ -1,6 +1,6 @@
 /*
     (C) 2015 - Austin Hughes, Stefan Oswald, Nowele Rechka
-    Last Modified: 2015-02-12
+    Last Modified: 2015-03-28
  */
 
 package net.austinhughes.speedreaderforwear;
@@ -21,58 +21,64 @@ import java.net.URL;
 
 public class RSSReader extends AsyncTask<URL, Void, Boolean>
 {
+    // Tag for Log and filenames
     private static final String TAG = "RSS Reader"; // Tag for log
     private final String HEADLINES_FILENAME = "rss_headlines";
     private final String DESCRIPTIONS_FILENAME = "rss_descriptions";
 
+    // Stores the current app context
     private Context ctx;
 
+    // Constructor
     public RSSReader (Context context)
     {
         ctx = context;
     }
 
+    // Entry point for AsyncTask
     public Boolean doInBackground(URL... urls)
     {
         return LoadRSSHeadlines(urls[0]);
     }
 
+    // Called when doInBackground finishes
     public void onPostExecute(Boolean result)
     {
         Log.d(TAG, "Finished download");
     }
 
+    // Loads in the RSS data for the given url
     public Boolean LoadRSSHeadlines(URL url)
     {
+        // Variables for RSS parsing
         String text = null;
         int event;
 
         try
         {
-            // Make sure file is clean
+            // Make sure files are clean
             ctx.deleteFile(HEADLINES_FILENAME);
             ctx.deleteFile(DESCRIPTIONS_FILENAME);
 
-            Log.d(TAG, "Start Download");
-
-            // Write to the file
+            // Open file writers
             FileOutputStream fos = ctx.openFileOutput(HEADLINES_FILENAME, Context.MODE_PRIVATE);
             BufferedWriter HeadlinesOut = new BufferedWriter(new OutputStreamWriter(fos));
-
             FileOutputStream fos2 = ctx.openFileOutput(DESCRIPTIONS_FILENAME, Context.MODE_PRIVATE);
             BufferedWriter DescriptionsOut = new BufferedWriter(new OutputStreamWriter(fos2));
 
+            // Get XML parser
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(false);
             XmlPullParser xpp = factory.newPullParser();
 
-            // We will get the XML from an input stream
+            // Get input stream from URL
             xpp.setInput(getInputStream(url), "UTF-8");
             event = xpp.getEventType();
+
             while (event != XmlPullParser.END_DOCUMENT)
             {
                 String name = xpp.getName();
-
+                // Switch based on event
                 switch (event)
                 {
                     case XmlPullParser.START_TAG:
@@ -81,6 +87,7 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
                         text = xpp.getText();
                         break;
                     case XmlPullParser.END_TAG:
+                        // Write title to file
                         if(name.equals("title"))
                         {
                             Log.d(TAG, "Title: " + text);
@@ -93,16 +100,18 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
                         }
                         else if(name.equals("description"))
                         {
-                                text = CleanDescription(text);
-                                Log.d(TAG, "Description: " + text);
-                                DescriptionsOut.write(text);
-                                DescriptionsOut.newLine();
+                            // Write description to file
+                            text = CleanDescription(text);
+                            Log.d(TAG, "Description: " + text);
+                            DescriptionsOut.write(text);
+                            DescriptionsOut.newLine();
                         }
                         break;
                 }
                 event = xpp.next();
             }
 
+            // close out file writers
             DescriptionsOut.close();
             HeadlinesOut.close();
         }
@@ -114,8 +123,10 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
         return true;
     }
 
+    // Makes sure no html tags or new lines are in the string
     private String CleanDescription(String description)
     {
+        // Remove HTML tags
         int index=0;
         int index2=0;
         while(index!=-1)
@@ -127,14 +138,20 @@ public class RSSReader extends AsyncTask<URL, Void, Boolean>
                 description = description.substring(0, index).concat(description.substring(index2+1, description.length()));
             }
         }
+        // Remove new lines
         description = description.replace("\n", "").replace("\r", "");
+        // Make sure no other HTML elements exist
         return android.text.Html.fromHtml(description).toString();
     }
 
-    private InputStream getInputStream(URL url) {
-        try {
+    // Gets input stream from a URL
+    private InputStream getInputStream(URL url)
+    {
+        try
+        {
             return url.openConnection().getInputStream();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             return null;
         }
     }

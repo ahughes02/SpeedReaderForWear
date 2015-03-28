@@ -1,22 +1,19 @@
 /*
     (C) 2015 - Austin Hughes, Stefan Oswald, Nowele Rechka
-    Last Modified: 2015-02-12
+    Last Modified: 2015-03-28
  */
 
 package net.austinhughes.speedreaderforwear;
 
 // Imports
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,16 +32,18 @@ import java.util.ArrayList;
 /*
     Main class for phone side application
  */
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends Activity
 {
     // Private class variables
     private GoogleApiClient mGoogleApiClient;
     private PutDataMapRequest dataMap;
 
+    // tag for Log and filenames
     private static final String TAG = "MainActivity"; // Tag for log
     private final String HEADLINES_FILENAME = "rss_headlines";
     private final String DESCRIPTIONS_FILENAME = "rss_descriptions";
 
+    // Holds the RSS item descriptions
     private String[] descriptions;
 
     @Override
@@ -85,6 +84,7 @@ public class MainActivity extends ActionBarActivity
         // Create the data map so we can sync data to Wear
         dataMap = PutDataMapRequest.create("/data");
 
+        // Load in the RSS data
         try
         {
             URL url = new URL("http://www.anandtech.com/rss/");
@@ -110,76 +110,55 @@ public class MainActivity extends ActionBarActivity
         super.onStop();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void onRSSButtonPressed(View v)
     {
+        // Lists to hold headlines and descriptions
         final ArrayList<String> list = new ArrayList<String>();
         final ArrayList<String> list2 = new ArrayList<String>();
         descriptions = new String[0];
 
         try
         {
+            // Create the file readers
             FileInputStream fis = openFileInput(HEADLINES_FILENAME);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-
             FileInputStream fis2 = openFileInput(DESCRIPTIONS_FILENAME);
             BufferedReader br2 = new BufferedReader(new InputStreamReader(fis2));
 
+            // Load in the first line
             String text = br.readLine();
             String text2 = br2.readLine();
 ;
             while (text != null && text2 != null)
             {
+                // Add them to the list
                 list.add(text);
                 list2.add(text2);
+
+                // Load in the next line
                 text = br.readLine();
                 text2 = br2.readLine();
             }
 
+            // Close the file reader
             br.close();
             br2.close();
 
+            // make the descriptions list into an array
             descriptions = list2.toArray(new String[list2.size()]);
-            /*for(int i = 0; i < descriptions.length; i++)
-            {
-                Log.d(TAG, "Descriptions array: " + descriptions[i]);
-            }*/
-
         }
         catch(Exception e)
         {
             Log.d(TAG, e.toString());
         }
 
+        // Load the list view with data
         setContentView(R.layout.activity_rss);
         final ListView listview = (ListView) findViewById(R.id.rssList);
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         listview.setAdapter(adapter);
 
+        // Set up item click listener so that when the user clicks an item it sends it to wear to read.
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -196,10 +175,8 @@ public class MainActivity extends ActionBarActivity
     {
         // Grab the text from the EditText text field
         EditText mEdit = (EditText)findViewById(R.id.editText);
-
-        mEdit.setText("");
+        mEdit.setText(""); // empty the text field
     }
-
 
     // Gets called whenever the send button is pressed
     public void onSendButtonPressed(View v)
@@ -207,28 +184,34 @@ public class MainActivity extends ActionBarActivity
         // Grab the text from the EditText text field
         EditText mEdit = (EditText)findViewById(R.id.editText);
 
+        // send the current text to Wear
         sendArticleToWear(mEdit.getText().toString());
     }
 
+    // Gets called when the reading list button is pressed, opens the reading list view
     public void onReadingButtonPressed(View v)
     {
         setContentView(R.layout.activity_read);
     }
 
+    // Gets called when the settings button is pressed, opens the settings view
     public void onSettingsButtonPressed(View v)
     {
         setContentView(R.layout.activity_settings);
     }
 
+    // Gets called when the quiz button is pressed, opens the quiz view
     public void onQuizButtonPressed(View v)
     {
         setContentView(R.layout.activity_quiz);
     }
 
+    // Gets called when the back button is pressed, opens the main view
     public void onBackButtonPressed(View v) {
         setContentView(R.layout.activity_main);
     }
 
+    // Sends the text to wear
     private void sendArticleToWear(String article)
     {
         // Clear the data map then put the text into it, the Google API client will auto sync it to Wear
