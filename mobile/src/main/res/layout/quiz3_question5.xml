@@ -19,24 +19,13 @@
     <Button
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="back"
+        android:text="Home"
         android:id="@+id/button8"
         android:onClick="onBackButtonPressedFromQuiz"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:background="#ff23272a"
         android:textColor="#ffffffff" />
-
-    <Button
-        android:background="#ff23272a"
-        android:id="@+id/button9"
-        android:layout_height="wrap_content"
-        android:layout_width="60dp"
-        android:onClick="onBackButtonPressed"
-        android:text="next"
-        android:textColor="#ffffffff"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"

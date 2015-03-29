@@ -32,7 +32,7 @@
         android:id="@+id/button9"
         android:layout_height="wrap_content"
         android:layout_width="60dp"
-        android:onClick="onBackButtonPressed"
+        android:onClick="onQuiz3Question1NextPressed"
         android:text="next"
         android:textColor="#ffffffff"
         android:layout_alignParentTop="true"

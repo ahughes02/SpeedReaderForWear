@@ -402,10 +402,6 @@ public class MainActivity extends Activity
     {
         setContentView(R.layout.quiz4_question4);
     }
-    public void onQuiz4Question4NextPressed(View v)
-    {
-        setContentView(R.layout.quiz4_question5);
-    }
 
     public void onQuiz5Question1NextPressed(View v)
     {
@@ -418,10 +414,6 @@ public class MainActivity extends Activity
     public void onQuiz5Question3NextPressed(View v)
     {
         setContentView(R.layout.quiz5_question4);
-    }
-    public void onQuiz5Question4NextPressed(View v)
-    {
-        setContentView(R.layout.quiz5_question5);
     }
 
 
