@@ -38,5 +38,104 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A meteor shower occurs when the Earth passes through ______________."
+        android:id="@+id/textView2"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/quizTitle"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A"
+        android:id="@+id/button10"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="34dp"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:onClick="onCorrectAnswerPressed" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="B"
+        android:id="@+id/button11"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/button10"
+        android:layout_alignParentStart="true"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:onClick="onWrongAnswerPressed" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:id="@+id/button12"
+        android:layout_marginTop="21dp"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/button11"
+        android:layout_alignParentStart="true"
+        android:onClick="onWrongAnswerPressed" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="D"
+        android:id="@+id/button13"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/button12"
+        android:layout_alignParentStart="true"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:onClick="onWrongAnswerPressed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A trail of debris left by a comet"
+        android:id="@+id/textView3"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/button10"
+        android:layout_alignStart="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A meteoroid"
+        android:id="@+id/textView4"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/button11"
+        android:layout_alignStart="@+id/textView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A solar flare"
+        android:id="@+id/textView5"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/button12"
+        android:layout_alignStart="@+id/textView6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The asteroid belt"
+        android:id="@+id/textView6"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/button13"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
