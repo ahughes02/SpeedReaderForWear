@@ -32,7 +32,7 @@
         android:id="@+id/button9"
         android:layout_height="wrap_content"
         android:layout_width="60dp"
-        android:onClick="onBackButtonPressed"
+        android:onClick="onQuiz2Question1NextPressed"
         android:text="next"
         android:textColor="#ffffffff"
         android:layout_alignParentTop="true"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A meteor shower occurs when the Earth passes through ______________."
+            android:text="Europeans eat _______ potatoes than Americans."
             android:id="@+id/textView2"
             android:layout_marginTop="25dp"
             android:layout_below="@+id/quizTitle"
@@ -59,7 +59,7 @@
             android:layout_marginTop="34dp"
             android:background="#ff23272a"
             android:textColor="#ffffffff"
-            android:onClick="onWrongAnswerPressed" />
+            android:onClick="onCorrectAnswerPressed" />
 
         <Button
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="More"
             android:id="@+id/textView3"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -110,7 +110,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="About the same amount"
             android:id="@+id/textView4"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -120,7 +120,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="Less"
             android:id="@+id/textView5"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -130,11 +130,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="The passage doesn&apos;t say"
             android:id="@+id/textView6"
             android:textColor="#000000"
             android:textSize="20sp"
             android:layout_alignTop="@+id/button13"
-            android:layout_alignEnd="@+id/quizTitle" />
+            android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

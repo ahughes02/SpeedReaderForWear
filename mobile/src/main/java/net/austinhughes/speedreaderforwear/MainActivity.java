@@ -356,6 +356,74 @@ public class MainActivity extends Activity
         setContentView(R.layout.quiz1_question4);
     }
 
+    public void onQuiz2Question1NextPressed(View v)
+    {
+        setContentView(R.layout.quiz2_question2);
+    }
+    public void onQuiz2Question2NextPressed(View v)
+    {
+        setContentView(R.layout.quiz2_question3);
+    }
+    public void onQuiz2Question3NextPressed(View v)
+    {
+        setContentView(R.layout.quiz2_question4);
+    }
+    public void onQuiz2Question4NextPressed(View v)
+    {
+        setContentView(R.layout.quiz2_question5);
+    }
+
+    public void onQuiz3Question1NextPressed(View v)
+    {
+        setContentView(R.layout.quiz3_question2);
+    }
+    public void onQuiz3Question2NextPressed(View v)
+    {
+        setContentView(R.layout.quiz3_question3);
+    }
+    public void onQuiz3Question3NextPressed(View v)
+    {
+        setContentView(R.layout.quiz3_question4);
+    }
+    public void onQuiz3Question4NextPressed(View v)
+    {
+        setContentView(R.layout.quiz3_question5);
+    }
+
+    public void onQuiz4Question1NextPressed(View v)
+    {
+        setContentView(R.layout.quiz4_question2);
+    }
+    public void onQuiz4Question2NextPressed(View v)
+    {
+        setContentView(R.layout.quiz4_question3);
+    }
+    public void onQuiz4Question3NextPressed(View v)
+    {
+        setContentView(R.layout.quiz4_question4);
+    }
+    public void onQuiz4Question4NextPressed(View v)
+    {
+        setContentView(R.layout.quiz4_question5);
+    }
+
+    public void onQuiz5Question1NextPressed(View v)
+    {
+        setContentView(R.layout.quiz5_question2);
+    }
+    public void onQuiz5Question2NextPressed(View v)
+    {
+        setContentView(R.layout.quiz5_question3);
+    }
+    public void onQuiz5Question3NextPressed(View v)
+    {
+        setContentView(R.layout.quiz5_question4);
+    }
+    public void onQuiz5Question4NextPressed(View v)
+    {
+        setContentView(R.layout.quiz5_question5);
+    }
+
 
     public void onStory1ButtonPressed(View v)
     {
