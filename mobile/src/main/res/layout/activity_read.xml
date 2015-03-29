@@ -17,17 +17,17 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:text="@string/Story1"
         android:id="@+id/button2"
         android:layout_below="@+id/rssTitle"
         android:layout_marginTop="20dp"
         android:onClick="onStory1ButtonPressed"
-        android:layout_alignEnd="@+id/button5"
-        android:layout_alignStart="@+id/button5"
         android:background="#ff23272a"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:layout_alignStart="@+id/rssTitle"
+        android:layout_alignEnd="@+id/rssTitle" />
 
     <Button
         android:layout_width="wrap_content"
@@ -61,11 +61,12 @@
         android:text="@string/Story4"
         android:id="@+id/button5"
         android:layout_below="@+id/button4"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:onClick="onStory4ButtonPressed"
         android:background="#ff23272a"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:layout_alignStart="@+id/button4"
+        android:layout_alignEnd="@+id/button4" />
 
     <Button
         android:layout_width="wrap_content"

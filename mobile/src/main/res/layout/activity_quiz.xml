@@ -8,82 +8,77 @@
 
     <TextView
         android:id="@+id/quizTitle"
-        android:text="Quiz"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:text="Select a Quiz"
         android:textSize="40sp"
         android:textColor="@android:color/black"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/textReady"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ready?"
-        android:layout_below="@+id/quizTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_alignBottom="@+id/button8"
+        android:layout_alignStart="@+id/quiz1" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Begin"
-        android:id="@+id/buttonBeginQuiz"
-        android:layout_below="@+id/textReady"
-        android:layout_centerHorizontal="true"
-        android:textColor="#ffffffff"
-        android:background="#ff23272a" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textChooseStory"
-        android:textSize="20sp"
-        android:layout_below="@+id/buttonBeginQuiz"
-        android:layout_alignParentStart="true"
-        android:text="Choose Story" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox"
-        android:layout_below="@+id/textChooseStory"
-        android:layout_alignParentStart="true"
+        android:id="@+id/quiz1"
         android:checked="false"
-        android:text="@string/Story1" />
+        android:text="@string/Story1"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/button8"
+        android:layout_alignStart="@+id/quiz2"
+        android:layout_alignEnd="@+id/quiz2"
+        android:onClick="onQuiz1ButtonPressed" />
 
-    <CheckBox
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Story2"
-        android:id="@+id/checkBox2"
-        android:layout_below="@+id/checkBox"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/quiz2"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/quiz1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:onClick="onQuiz2ButtonPressed" />
 
-    <CheckBox
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Story3"
-        android:id="@+id/checkBox3"
-        android:layout_below="@+id/checkBox2"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/quiz3"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/quiz2"
+        android:layout_alignStart="@+id/quiz2"
+        android:onClick="onQuiz3ButtonPressed" />
 
-    <CheckBox
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Story4"
-        android:id="@+id/checkBox4"
-        android:layout_below="@+id/checkBox3"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/quiz4"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/quiz3"
+        android:layout_marginTop="43dp"
+        android:layout_alignStart="@+id/quiz3"
+        android:layout_alignEnd="@+id/quiz3"
+        android:onClick="onQuiz4ButtonPressed" />
 
-    <CheckBox
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Story5"
-        android:id="@+id/checkBox5"
-        android:layout_below="@+id/checkBox4"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/quiz5"
+        android:background="#ff23272a"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/quiz4"
+        android:layout_marginTop="49dp"
+        android:layout_alignStart="@+id/quiz4"
+        android:layout_alignEnd="@+id/quiz4"
+        android:onClick="onQuiz5ButtonPressed" />
 
     <Button
         android:layout_width="60dp"

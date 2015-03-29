@@ -9,8 +9,8 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="Story1">Meteors</string>
     <string name="Story2">History of Potato Chips</string>
-    <string name="Story3">The Martian</string>
-    <string name="Story4">Lord of the Rings</string>
-    <string name="Story5">Lord of the Flies</string>
+    <string name="Story3">Tornadoes</string>
+    <string name="Story4">Bill Gates</string>
+    <string name="Story5">Age of Exploration</string>
 
 </resources>
