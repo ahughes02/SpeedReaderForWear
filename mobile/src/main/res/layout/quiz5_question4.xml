@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A meteor shower occurs when the Earth passes through ______________."
+            android:text="Which of the following best describes why the Age of Exploration occurred?"
             android:id="@+id/textView2"
             android:layout_marginTop="25dp"
             android:layout_below="@+id/quizTitle"
@@ -72,7 +72,7 @@
             android:textColor="#ffffffff"
             android:layout_below="@+id/button11"
             android:layout_alignParentStart="true"
-            android:onClick="onWrongAnswerPressed" />
+            android:onClick="onCorrectAnswerPressed" />
 
         <Button
             android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="England and Spain wanted to expand their empires."
             android:id="@+id/textView3"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -99,7 +99,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="Spain had claimed North and South America"
             android:id="@+id/textView4"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="European rulers wanted to find a cheaper way to obtain spices from Asia."
             android:id="@+id/textView5"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -119,12 +119,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="The English defeated the Spanish Armada."
             android:id="@+id/textView6"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:layout_alignTop="@+id/button13"
-            android:layout_alignEnd="@+id/quizTitle" />
+            android:layout_alignBottom="@+id/button13"
+            android:layout_alignStart="@+id/quizTitle" />
 
 
 </RelativeLayout>
