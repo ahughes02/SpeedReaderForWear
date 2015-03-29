@@ -32,7 +32,7 @@
         android:id="@+id/button9"
         android:layout_height="wrap_content"
         android:layout_width="60dp"
-        android:onClick="onBackButtonPressed"
+        android:onClick="onQuiz1Question3NextPressed"
         android:text="next"
         android:textColor="#ffffffff"
         android:layout_alignParentTop="true"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A meteor shower occurs when the Earth passes through ______________."
+            android:text="Which of the following actually hits the ground?"
             android:id="@+id/textView2"
             android:layout_marginTop="25dp"
             android:layout_below="@+id/quizTitle"
@@ -71,7 +71,7 @@
             android:layout_alignParentStart="true"
             android:background="#ff23272a"
             android:textColor="#ffffffff"
-            android:onClick="onWrongAnswerPressed" />
+            android:onClick="onCorrectAnswerPressed" />
 
         <Button
             android:layout_width="wrap_content"
@@ -85,22 +85,10 @@
             android:layout_alignParentStart="true"
             android:onClick="onWrongAnswerPressed" />
 
-        <Button
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="D"
-            android:id="@+id/button13"
-            android:layout_marginTop="24dp"
-            android:layout_below="@+id/button12"
-            android:layout_alignParentStart="true"
-            android:background="#ff23272a"
-            android:textColor="#ffffffff"
-            android:onClick="onWrongAnswerPressed" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="Meteoroid"
             android:id="@+id/textView3"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -110,7 +98,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="Meteorite"
             android:id="@+id/textView4"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -120,22 +108,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="Meteor"
             android:id="@+id/textView5"
             android:textColor="#000000"
             android:textSize="20sp"
             android:layout_alignTop="@+id/button12"
-            android:layout_alignStart="@+id/textView6" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sample Text"
-            android:id="@+id/textView6"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:layout_alignTop="@+id/button13"
-            android:layout_alignEnd="@+id/quizTitle" />
+            android:layout_alignStart="@+id/quizTitle" />
 
 
 </RelativeLayout>

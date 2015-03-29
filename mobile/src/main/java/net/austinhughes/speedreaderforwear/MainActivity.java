@@ -343,6 +343,19 @@ public class MainActivity extends Activity
         setContentView(R.layout.quiz5_question1);
     }
 
+    public void onQuiz1Question1NextPressed(View v)
+    {
+        setContentView(R.layout.quiz1_question2);
+    }
+    public void onQuiz1Question2NextPressed(View v)
+    {
+        setContentView(R.layout.quiz1_question3);
+    }
+    public void onQuiz1Question3NextPressed(View v)
+    {
+        setContentView(R.layout.quiz1_question4);
+    }
+
 
     public void onStory1ButtonPressed(View v)
     {
