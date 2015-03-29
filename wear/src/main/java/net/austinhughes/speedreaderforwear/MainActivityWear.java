@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +55,9 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     private final String FILENAME = "stored_data";
     private final String SETTINGS_FILENAME = "settings";
     private final String ITERATOR_FILENAME = "iterator";
+
+    // wakeLock so screen will stay on when reading
+    private static PowerManager.WakeLock wakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -129,6 +133,13 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        if (wakeLock != null && wakeLock.isHeld())
+            wakeLock.release();
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE,
+                "WakeLock");
+
         Log.d(TAG, "onCreate()");
     }
 
@@ -151,9 +162,8 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
     {
         super.onPause();
 
-        // Disconnect from the listener and the Google API
-        Wearable.DataApi.removeListener(mGoogleApiClient, this);
-        mGoogleApiClient.disconnect();
+        if (wakeLock != null && wakeLock.isHeld())
+            wakeLock.release();
 
         Log.d(TAG, "onPause()");
     }
@@ -216,6 +226,8 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                     }
 
                     reading = false;
+                    if (wakeLock != null && wakeLock.isHeld())
+                        wakeLock.release();
                     // Set up speed reading
                     currentData = text.split(" ");
                     setText("New Data Received. Tap to Read.");
@@ -270,6 +282,8 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
                 if(!iterateText())
                 {
                     setText("Tap to read again");
+                    if (wakeLock != null && wakeLock.isHeld())
+                        wakeLock.release();
                     iterator = 0;
                     this.cancel();
                 }
@@ -326,6 +340,8 @@ public class MainActivityWear extends Activity implements ConnectionCallbacks, D
         {
             iterator = 0;
             reading = true;
+            if (wakeLock != null && !wakeLock.isHeld())
+                wakeLock.acquire(240000);
             spreed();
         }
     }

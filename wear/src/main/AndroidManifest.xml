@@ -3,6 +3,7 @@
     package="net.austinhughes.speedreaderforwear" >
 
     <uses-feature android:name="android.hardware.type.watch" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,7 @@
         android:theme="@android:style/Theme.DeviceDefault" >
 
         <user-permission android:name="android.permission.INTERNET"/>
+
         <service
             android:name=".DataListenerService" >
             <intent-filter>

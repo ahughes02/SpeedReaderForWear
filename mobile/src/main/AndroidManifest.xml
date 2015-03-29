@@ -20,22 +20,6 @@
 
             <service android:name=".RssService" />
         </activity>
-        <activity
-            android:name=".QuizActivity"
-            android:label="@string/title_activity_quiz" >
-        </activity>
-        <activity
-            android:name=".ReadActivity"
-            android:label="@string/title_activity_read" >
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
-            android:name=".Story1"
-            android:label="@string/title_activity_story1" >
-        </activity>
     </application>
 
 </manifest>
